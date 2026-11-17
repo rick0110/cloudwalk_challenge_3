@@ -1,0 +1,9 @@
+# Ambiente e caches do Python
+.venv/
+__pycache__/
+
+# Conjuntos do benchmark: grandes e recriáveis com gerar_entradas.py (ver reproduzir.sh)
+03-hpc/dados/pequeno/
+03-hpc/dados/medio/
+03-hpc/dados/grande/
+03-hpc/dados/enorme/
