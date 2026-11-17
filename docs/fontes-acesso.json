@@ -1,0 +1,226 @@
+{
+  "escopo": "Consulta anonima das fontes. CSV/ARFF e codigo: primeiros 2048 bytes; APIs/paginas e ZIPs UCI573/UCI224: respostas completas. ZIPs abertos e CRC conferido em memoria, sem incorporar dados externos ao kit.",
+  "consultas": [
+    {
+      "fonte": "uci350_csv",
+      "url": "https://archive.ics.uci.edu/static/public/350/data.csv",
+      "tipo_verificacao": "download",
+      "verificado_em_utc": "2026-11-17T16:49:55.358243+00:00",
+      "http_status": 200,
+      "url_final": "https://archive.ics.uci.edu/static/public/350/data.csv",
+      "content_type": null,
+      "content_length": null,
+      "bytes_lidos": 2048,
+      "prefixo_sha256": "c9d30dfdd5275919c89af6f4bdea75427d2735259640acef28030ef78dbac320"
+    },
+    {
+      "fonte": "uci144_csv",
+      "url": "https://archive.ics.uci.edu/static/public/144/data.csv",
+      "tipo_verificacao": "download",
+      "verificado_em_utc": "2026-11-17T16:49:55.358592+00:00",
+      "http_status": 200,
+      "url_final": "https://archive.ics.uci.edu/static/public/144/data.csv",
+      "content_type": null,
+      "content_length": null,
+      "bytes_lidos": 2048,
+      "prefixo_sha256": "b1018b804d4572b2f1e7ba8a8cc68cc09ee8a1d5ba810185982de56df2702a7f"
+    },
+    {
+      "fonte": "uci573_api",
+      "url": "https://archive.ics.uci.edu/api/dataset?id=573",
+      "tipo_verificacao": "metadata",
+      "verificado_em_utc": "2026-11-17T16:49:55.358670+00:00",
+      "http_status": 200,
+      "url_final": "https://archive.ics.uci.edu/api/dataset?id=573",
+      "content_type": "text/plain;charset=UTF-8",
+      "content_length": null,
+      "bytes_lidos": 5289,
+      "metadados": {
+        "nome": "South German Credit",
+        "observacoes": 1000,
+        "features_reportadas_pela_api": 21,
+        "data_url": null,
+        "doi": "10.24432/C5QG88"
+      }
+    },
+    {
+      "fonte": "uci224_api",
+      "url": "https://archive.ics.uci.edu/api/dataset?id=224",
+      "tipo_verificacao": "metadata",
+      "verificado_em_utc": "2026-11-17T16:49:55.358731+00:00",
+      "http_status": 200,
+      "url_final": "https://archive.ics.uci.edu/api/dataset?id=224",
+      "content_type": "text/plain;charset=UTF-8",
+      "content_length": null,
+      "bytes_lidos": 23118,
+      "metadados": {
+        "nome": "Gas Sensor Array Drift Dataset",
+        "observacoes": 13910,
+        "features_reportadas_pela_api": 0,
+        "data_url": null,
+        "doi": "10.24432/C5RP6W",
+        "restricao_descricao": "Exclusivamente pesquisa; uso comercial excluido na descricao"
+      }
+    },
+    {
+      "fonte": "openml151_arff",
+      "url": "https://openml.org/data/v1/download/2419/electricity.arff",
+      "tipo_verificacao": "download",
+      "verificado_em_utc": "2026-11-17T16:49:55.943933+00:00",
+      "http_status": 200,
+      "url_final": "https://www.openml.org/data/v1/download/2419/electricity.arff",
+      "content_type": "text/plain;charset=UTF-8",
+      "content_length": "3092013",
+      "bytes_lidos": 2048,
+      "prefixo_sha256": "539a6754a8898c8da31f1f0298c31c4141c1b1783b5da8abb2443dd6ccd01d29"
+    },
+    {
+      "fonte": "openml1169_arff",
+      "url": "https://openml.org/data/v1/download/66526/airlines.arff",
+      "tipo_verificacao": "download",
+      "verificado_em_utc": "2026-11-17T16:49:55.974971+00:00",
+      "http_status": 200,
+      "url_final": "https://www.openml.org/data/v1/download/66526/airlines.arff",
+      "content_type": "text/plain;charset=UTF-8",
+      "content_length": "19168157",
+      "bytes_lidos": 2048,
+      "prefixo_sha256": "d7213549bdc370f03914183a0d304e81b96290d0163bfd218c17d4bf31d9be8b"
+    },
+    {
+      "fonte": "river_elec2_zip",
+      "url": "https://maxhalford.github.io/files/datasets/electricity.zip",
+      "tipo_verificacao": "download",
+      "verificado_em_utc": "2026-11-17T16:49:55.975993+00:00",
+      "http_status": 200,
+      "url_final": "https://maxhalford.github.io/files/datasets/electricity.zip",
+      "content_type": "application/x-zip-compressed",
+      "content_length": "714469",
+      "bytes_lidos": 2048,
+      "prefixo_sha256": "dc5393ee5553f94d4d684fe3700f612663c387d74738db2810ce5d76917cd38d"
+    },
+    {
+      "fonte": "river_sea_code",
+      "url": "https://raw.githubusercontent.com/online-ml/river/main/river/datasets/synth/sea.py",
+      "tipo_verificacao": "code",
+      "verificado_em_utc": "2026-11-17T16:49:56.146746+00:00",
+      "http_status": 200,
+      "url_final": "https://raw.githubusercontent.com/online-ml/river/main/river/datasets/synth/sea.py",
+      "content_type": "text/plain; charset=utf-8",
+      "content_length": "2484",
+      "bytes_lidos": 2048,
+      "prefixo_sha256": "c323e01030f7aa896175d3aff59735f39c9a0a67445876b22f48d7d475266f93"
+    },
+    {
+      "fonte": "uci573_pagina",
+      "url": "https://archive.ics.uci.edu/dataset/573/south+german+credit+update",
+      "verificado_em_utc": "2026-11-17T16:51:49.531600+00:00",
+      "http_status": 200,
+      "url_final": "https://archive.ics.uci.edu/dataset/573/south+german+credit+update",
+      "bytes_lidos": 92227,
+      "sha256_resposta": "b2fa702f6003cd382965e0f59ecfe9da1f84aaaa4b306d3927a712194b8cb519",
+      "downloads": [
+        "/static/public/573/south+german+credit+update.zip"
+      ],
+      "cc_by_4_presente": true,
+      "restricao_comercial_presente": false
+    },
+    {
+      "fonte": "uci224_pagina",
+      "url": "https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset",
+      "verificado_em_utc": "2026-11-17T16:51:49.531878+00:00",
+      "http_status": 200,
+      "url_final": "https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset",
+      "bytes_lidos": 119851,
+      "sha256_resposta": "828f335941473fed57f9703295e196a999bfa5450b32525150908976499f390e",
+      "downloads": [
+        "/static/public/224/gas+sensor+array+drift+dataset.zip"
+      ],
+      "cc_by_4_presente": true,
+      "restricao_comercial_presente": true
+    },
+    {
+      "fonte": "uci350_pagina",
+      "url": "https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients",
+      "verificado_em_utc": "2026-11-17T16:51:49.531936+00:00",
+      "http_status": 200,
+      "url_final": "https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients",
+      "bytes_lidos": 172376,
+      "sha256_resposta": "21a739e020f78d98b66c709f0329de313d85c63383372a925571cfb8bf65d6e2",
+      "downloads": [
+        "/static/public/350/default+of+credit+card+clients.zip"
+      ],
+      "cc_by_4_presente": true,
+      "restricao_comercial_presente": false
+    },
+    {
+      "fonte": "openml151_api",
+      "url": "https://www.openml.org/api/v1/json/data/151",
+      "verificado_em_utc": "2026-11-17T16:51:49.531981+00:00",
+      "http_status": 200,
+      "url_final": "https://www.openml.org/api/v1/json/data/151",
+      "bytes_lidos": 3291,
+      "sha256_resposta": "62d218174f597399a5a0a1538bc9cafb071b01cc8275935e80b5b6e32d838797",
+      "metadados": {
+        "name": "electricity",
+        "version": "1",
+        "url": "https://openml.org/data/v1/download/2419/electricity.arff",
+        "licence": "Public",
+        "default_target_attribute": "class"
+      }
+    },
+    {
+      "fonte": "openml1169_api",
+      "url": "https://www.openml.org/api/v1/json/data/1169",
+      "verificado_em_utc": "2026-11-17T16:51:50.725678+00:00",
+      "http_status": 200,
+      "url_final": "https://www.openml.org/api/v1/json/data/1169",
+      "bytes_lidos": 1105,
+      "sha256_resposta": "46b6b65016525c8dda7f96bda973d1f861233bcc21570b66bbc0d459bf15fbb9",
+      "metadados": {
+        "name": "airlines",
+        "version": "1",
+        "url": "https://openml.org/data/v1/download/66526/airlines.arff",
+        "licence": "Public",
+        "default_target_attribute": "Delay"
+      }
+    },
+    {
+      "fonte": "uci573_zip",
+      "url": "https://archive.ics.uci.edu/static/public/573/south+german+credit+update.zip",
+      "verificado_em_utc": "2026-11-17T16:55:44.826700+00:00",
+      "http_status": 200,
+      "url_final": "https://archive.ics.uci.edu/static/public/573/south+german+credit+update.zip",
+      "bytes_baixados": 13130,
+      "download_completo": true,
+      "arquivos": [
+        "codetable.txt",
+        "read_SouthGermanCredit.R",
+        "SouthGermanCredit.asc"
+      ],
+      "zip_crc_valido": true
+    },
+    {
+      "fonte": "uci224_zip",
+      "url": "https://archive.ics.uci.edu/static/public/224/gas+sensor+array+drift+dataset.zip",
+      "verificado_em_utc": "2026-11-17T16:55:44.827306+00:00",
+      "http_status": 200,
+      "url_final": "https://archive.ics.uci.edu/static/public/224/gas+sensor+array+drift+dataset.zip",
+      "bytes_baixados": 9989262,
+      "download_completo": true,
+      "arquivos": [
+        "Dataset/",
+        "Dataset/batch1.dat",
+        "Dataset/batch10.dat",
+        "Dataset/batch2.dat",
+        "Dataset/batch3.dat",
+        "Dataset/batch4.dat",
+        "Dataset/batch5.dat",
+        "Dataset/batch6.dat",
+        "Dataset/batch7.dat",
+        "Dataset/batch8.dat",
+        "Dataset/batch9.dat"
+      ],
+      "zip_crc_valido": true
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "README.md": "6a97f128bd7a4278c84f82466cfd954d9bec576fa19ebc6988c625576f6708e2",
+  ".python-version": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+  "03-hpc/README.md": "20aef23c2cc14f3fcdeb071a29fab2907ff796cd62a887dcdca1d8c518dc5fba",
+  "03-hpc/dados/exemplo/entradas.npy": "f52f9249ab5009d4b709e21e43e35290bd080a7cbfd56dde9c122325348f7da5",
+  "03-hpc/dados/exemplo/metadados.json": "f3eeff18e529060b94760d09d446abc9054dbc5b6cf0ceadceccf577918f733f",
+  "03-hpc/dados/exemplo/saidas_esperadas.npy": "71656cbc474259c27150fd880497026803a19c6fd1e6a2e4405d3608d290cb25",
+  "03-hpc/exemplo.py": "e8cd09b3f05da4cda204868d593e9489b139feaffe4b5d14aafb245011f16528",
+  "03-hpc/gerar_entradas.py": "bd773d98d7546be251476c4a6cbc374311018ae9616129c88261424afd3a64e7",
+  "03-hpc/gerar_modelo.py": "4664a1a9239d39d7b29a25c1671c7933cf8f221668b816dccd5d7de4642ac85d",
+  "03-hpc/mlp.py": "1dc1b3b4de2d64dfd8c1d79e76467e80f78f757c2edfd191fc28f8154185727c",
+  "03-hpc/modelo/modelo.json": "0f32ef14a75f19c39bd54bb2685a600e5ff549b366b778e64f15404fc2ec12ed",
+  "03-hpc/modelo/modelo.npz": "bdd3f6783f3a3dd0a2750e4ddc9b6fa958f7bdb280c725cac36307eacd3a47d2",
+  "03-hpc/test_hpc.py": "6ac62037480285b3b8c0b66e69a3c3f534c7de2dd4a9880ac3d1fc1e5d199188",
+  "docs/fontes-acesso.json": "4cd0ea0c5dfe8426b2461776feb3c133d08fad07b15507ce2b49f2137801b2aa",
+  "docs/fontes-openml.json": "11d35037f8c2a97b6acf398421f5bfb4341c5ddc90c9516306514965b646dd64",
+  "docs/fontes-verificadas.json": "167ed98cc8d385453d3fa2864068fce474b147c44a0b0023b60c97936367269c",
+  "pyproject.toml": "28649ff7c3075bac49736dc0bf62b72ddd301a6377d2cc65cc034c63005ba576",
+  "uv.lock": "66f837b9b7ee668850a44a4f86b02879f0d96c101a79a26274693f2a45dcc122"
+}

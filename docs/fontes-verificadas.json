@@ -1,0 +1,188 @@
+[
+  {
+    "fonte": "uci_credito_taiwan",
+    "url": "https://archive.ics.uci.edu/api/dataset?id=350",
+    "verificado_em_utc": "2026-11-17T15:44:58.572583+00:00",
+    "http_status": 200,
+    "sha256_resposta": "b92ff7a69d5b65179f61f0b01c456dc6cf69e783fbd02eb2be0a014abce1ad2b",
+    "metadados": {
+      "name": "Default of Credit Card Clients",
+      "num_instances": 30000,
+      "num_features": 23,
+      "dataset_doi": "10.24432/C55S3H",
+      "repository_url": "https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients",
+      "data_url": "https://archive.ics.uci.edu/static/public/350/data.csv",
+      "target_col": [
+        "Y"
+      ]
+    },
+    "resumo": "This research aimed at the case of customers' default payments in Taiwan and compares the predictive accuracy of probability of default among six data mining methods."
+  },
+  {
+    "fonte": "uci_german_credit",
+    "url": "https://archive.ics.uci.edu/api/dataset?id=144",
+    "verificado_em_utc": "2026-11-17T15:44:58.573165+00:00",
+    "http_status": 200,
+    "sha256_resposta": "d99e40b6b0a348840a03d8fd7a56dd25f4d0cd4b9262c2b3a1dc8e05bf1faef9",
+    "metadados": {
+      "name": "Statlog (German Credit Data)",
+      "num_instances": 1000,
+      "num_features": 20,
+      "dataset_doi": "10.24432/C5NC77",
+      "repository_url": "https://archive.ics.uci.edu/dataset/144/statlog+german+credit+data",
+      "data_url": "https://archive.ics.uci.edu/static/public/144/data.csv",
+      "target_col": [
+        "class"
+      ]
+    },
+    "resumo": "This dataset classifies people described by a set of attributes as good or bad credit risks. Comes in two formats (one all numeric). Also comes with a cost matrix"
+  },
+  {
+    "fonte": "uci_south_german",
+    "url": "https://archive.ics.uci.edu/api/dataset?id=573",
+    "verificado_em_utc": "2026-11-17T15:44:58.573237+00:00",
+    "http_status": 200,
+    "sha256_resposta": "41a13e819126bfe0bcbe20651ce5e11a473c0714a2a43f9d4518c0fe0d39ce4a",
+    "metadados": {
+      "name": "South German Credit",
+      "num_instances": 1000,
+      "num_features": 21,
+      "dataset_doi": "10.24432/C5QG88",
+      "repository_url": "https://archive.ics.uci.edu/dataset/573/south+german+credit+update",
+      "data_url": null,
+      "target_col": null
+    },
+    "resumo": "700 good and 300 bad credits with 20 predictor variables. Data from 1973 to 1975. Stratified sample from actual credits with bad credits heavily oversampled. A cost matrix can be used.",
+    "correcoes": "The widely used Statlog German credit data ([https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)]), as of November 2019, suffers from severe errors in the coding information and does not come with any background information. The 'South German Credit' data provide a correction and some background information, based on the Open Data LMU (2010) representation of the same data and several other German language resources."
+  },
+  {
+    "fonte": "uci_gas_drift",
+    "url": "https://archive.ics.uci.edu/api/dataset?id=224",
+    "verificado_em_utc": "2026-11-17T15:44:58.573289+00:00",
+    "http_status": 200,
+    "sha256_resposta": "c9e067f9a9dae6289800a1e05f589107551085ca8d997c6cbce30406fc61dd62",
+    "metadados": {
+      "name": "Gas Sensor Array Drift Dataset",
+      "num_instances": 13910,
+      "num_features": 0,
+      "dataset_doi": "10.24432/C5RP6W",
+      "repository_url": "https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset",
+      "data_url": null,
+      "target_col": null
+    },
+    "resumo": "This archive contains 13910 measurements from 16 chemical sensors utilized in simulations for drift compensation in a discrimination task of 6 gases at various levels of concentrations.",
+    "restricao_na_descricao": "The dataset can be used exclusively for research purposes. Commercial purposes are fully excluded."
+  },
+  {
+    "fonte": "river_elec2",
+    "url": "https://raw.githubusercontent.com/online-ml/river/main/river/datasets/elec2.py",
+    "verificado_em_utc": "2026-11-17T15:44:58.573329+00:00",
+    "http_status": 200,
+    "sha256_resposta": "95f241b4c3b1c15af750400d1ad72559c321acf7d1335012ddabe053cdae1c58",
+    "trechos": [
+      "class Elec2(base.RemoteDataset):",
+      "url=\"https://maxhalford.github.io/files/datasets/electricity.zip\",",
+      "n_samples=45_312,",
+      "n_features=8,"
+    ]
+  },
+  {
+    "fonte": "river_sea",
+    "url": "https://raw.githubusercontent.com/online-ml/river/main/river/datasets/synth/sea.py",
+    "verificado_em_utc": "2026-11-17T15:44:58.573364+00:00",
+    "http_status": 200,
+    "sha256_resposta": "8ac6f160538ecfad4acebea8ac3c6d1e2db383b9135ca4d2d58f08276f42b57f",
+    "trechos": [
+      "class SEA(datasets.base.SyntheticDataset):",
+      "Implementation of the data stream with abrupt drift described in [^1]. Each observation is",
+      "choose from. Concept drift can be introduced by switching the threshold anytime during the",
+      "super().__init__(n_features=3, task=datasets.base.BINARY_CLF)"
+    ]
+  },
+  {
+    "fonte": "river_stagger",
+    "url": "https://raw.githubusercontent.com/online-ml/river/main/river/datasets/synth/stagger.py",
+    "verificado_em_utc": "2026-11-17T15:44:58.635937+00:00",
+    "http_status": 200,
+    "sha256_resposta": "6f5c82a3f0014ec78131766bc9c55c77e687b5ebe97364f44ce2052ae2baf5cd",
+    "trechos": [
+      "class STAGGER(datasets.base.SyntheticDataset):",
+      "Concept drift can be introduced by changing the classification function.",
+      "means the class distribution will tend to a uniform one.",
+      "defines whether to classify the instance as class 0 or class 1. Finally,",
+      "super().__init__(n_features=3, n_classes=2, n_outputs=1, task=datasets.base.BINARY_CLF)"
+    ]
+  },
+  {
+    "fonte": "river_agrawal",
+    "url": "https://raw.githubusercontent.com/online-ml/river/main/river/datasets/synth/agrawal.py",
+    "verificado_em_utc": "2026-11-17T15:44:58.642767+00:00",
+    "http_status": 200,
+    "sha256_resposta": "48d83f88583e6108ae09f0a8198eecbe79254cefbba7ae9ec6ecf376337fbf38",
+    "trechos": [
+      "class Agrawal(datasets.base.SyntheticDataset):",
+      "The generator was introduced by Agrawal et al. [^1], and was a common",
+      "There are 10 functions defined for generating binary class labels from the",
+      "features. Presumably these determine whether the loan should be approved.",
+      "If True, the class distribution will converge to a uniform distribution.",
+      "the attributes, whether to classify the instance as class 0 or class",
+      "super().__init__(n_features=9, n_classes=2, n_outputs=1, task=datasets.base.BINARY_CLF)"
+    ]
+  },
+  {
+    "fonte": "river_concept_drift_stream",
+    "url": "https://raw.githubusercontent.com/online-ml/river/main/river/datasets/synth/concept_drift_stream.py",
+    "verificado_em_utc": "2026-11-17T15:44:58.676417+00:00",
+    "http_status": 200,
+    "sha256_resposta": "05987442aea19c369ba7006f5b730b700dc599160779495e8be1c19723590804",
+    "trechos": [
+      "class ConceptDriftStream(datasets.base.SyntheticDataset):",
+      "n_features=stream.n_features,",
+      "n_classes=stream.n_classes,"
+    ]
+  },
+  {
+    "fonte": "uci_credito_taiwan_pagina",
+    "url": "https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients",
+    "verificado_em_utc": "2026-11-17T15:44:58.684863+00:00",
+    "http_status": 200,
+    "sha256_resposta": "a7353362fa75b9780e817973643bda1fca4afe75b1932e5a3650b7eb5860b9f5",
+    "licenca_trechos": [
+      "a Creative Commons Attribution 4.0 International (CC BY 4.0) license. This allows for the sharing and adaptation of the datasets for any purpose, provided that the appropriate credit is given. By using the UCI Machine Learning Repository, "
+    ]
+  },
+  {
+    "fonte": "uci_german_pagina",
+    "url": "https://archive.ics.uci.edu/dataset/144/statlog+german+credit+data",
+    "verificado_em_utc": "2026-11-17T15:44:58.964148+00:00",
+    "http_status": 200,
+    "sha256_resposta": "c7fb80bf9360b44e869e609f51cb9491501066f5082b6495f4a06c3bb716a8e7",
+    "licenca_trechos": [
+      "a Creative Commons Attribution 4.0 International (CC BY 4.0) license. This allows for the sharing and adaptation of the datasets for any purpose, provided that the appropriate credit is given. By using the UCI Machine Learning Repository, "
+    ]
+  },
+  {
+    "fonte": "uci_south_german_pagina",
+    "url": "https://archive.ics.uci.edu/dataset/573/south+german+credit+update",
+    "verificado_em_utc": "2026-11-17T15:44:59.197822+00:00",
+    "http_status": 200,
+    "sha256_resposta": "85d560eead3dd887a49176d20957496cb936f28573f33eee64e2fcf9ad9af855",
+    "licenca_trechos": [
+      "a Creative Commons Attribution 4.0 International (CC BY 4.0) license. This allows for the sharing and adaptation of the datasets for any purpose, provided that the appropriate credit is given. By using the UCI Machine Learning Repository, "
+    ]
+  },
+  {
+    "fonte": "uci_gas_pagina",
+    "url": "https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset",
+    "verificado_em_utc": "2026-11-17T15:44:59.214486+00:00",
+    "http_status": 200,
+    "sha256_resposta": "6880615b3b1ccb02dcfb85d5d6a05666a7a6ea418de02b7cbbd8507aab5ad752",
+    "licenca_trechos": [
+      "ith sensor/concept drift. The dataset can be used exclusively for research purposes. Commercial purposes are fully excluded. The dataset was gathered within January 2007 to February 2011 (36 months) in a gas delivery platform facility situated at the Che",
+      "et can be used exclusively for research purposes. Commercial purposes are fully excluded. The dataset was gathered within January 2007 to February 2011 (36 months) in a gas delivery platform facility situated at the ChemoSignals Laboratory in the Bi",
+      "a Creative Commons Attribution 4.0 International (CC BY 4.0) license. This allows for the sharing and adaptation of the datasets for any purpose, provided that the appropriate credit is given. By using the UCI Machine Learning Repository, ",
+      "ith sensor/concept drift. The dataset can be used exclusively for research purposes. Commercial purposes are fully excluded.\\\\nThe dataset was gathered within January 2007 to February 2011 (36 months) in a gas delivery platform facility situated at the C",
+      "et can be used exclusively for research purposes. Commercial purposes are fully excluded.\\\\nThe dataset was gathered within January 2007 to February 2011 (36 months) in a gas delivery platform facility situated at the ChemoSignals Laboratory in the "
+    ]
+  }
+]

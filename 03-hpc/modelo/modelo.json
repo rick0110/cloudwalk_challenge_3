@@ -1,0 +1,19 @@
+{
+  "format_version": 1,
+  "architecture": [
+    64,
+    32,
+    1
+  ],
+  "activation": "identity",
+  "dtype": "float64",
+  "seed": 2026,
+  "rng": "PCG64",
+  "numpy_version": "2.2.6",
+  "trained": false,
+  "purpose": "Exercício de inferência e desempenho em CPU; sem validade preditiva de crédito.",
+  "formula": "H = X @ W1 + b1; y = H @ W2 + b2 = X @ W_efetivo + b_efetivo",
+  "model_parameters_sha256": "bd65b78e11caeb65cd7bbd2e0447cb128c1762f64f1a62718a98e81a6df065d3",
+  "rtol": 1e-10,
+  "atol": 1e-10
+}

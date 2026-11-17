@@ -1,0 +1,18 @@
+{
+  "format_version": 1,
+  "rows": 128,
+  "features": 64,
+  "outputs": 1,
+  "dtype": "float64",
+  "seed": 2027,
+  "rng": "PCG64",
+  "numpy_version": "2.2.6",
+  "distribution": "Features independentes com distribuição normal padrão N(0, 1).",
+  "batch_size": 4096,
+  "model_parameters_sha256": "bd65b78e11caeb65cd7bbd2e0447cb128c1762f64f1a62718a98e81a6df065d3",
+  "inputs_file": "entradas.npy",
+  "expected_outputs_file": "saidas_esperadas.npy",
+  "array_bytes": 66560,
+  "rtol": 1e-10,
+  "atol": 1e-10
+}
