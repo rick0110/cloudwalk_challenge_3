@@ -9,7 +9,7 @@ import unittest
 
 import numpy as np
 
-from inferencia import fatias, prever_vetorizado
+from inferencia import InferenciaParalela, fatias, prever_paralelo, prever_vetorizado
 from mlp import ATOL, BASE, RTOL, carregar_modelo
 
 
@@ -22,6 +22,10 @@ ESPERADO = np.load(BASE / "dados" / "exemplo" / "saidas_esperadas.npy", allow_pi
 ESTRATEGIAS = {
     "vetorizado": lambda X: prever_vetorizado(MODELO, X),
     "vetorizado, lote 7": lambda X: prever_vetorizado(MODELO, X, lote=7),
+    "paralelo, 2 processos": lambda X: prever_paralelo(MODELO, X, processos=2),
+    "paralelo, 2 processos, lote 7": lambda X: prever_paralelo(MODELO, X, processos=2, lote=7),
+    # Lote 1: cada linha é uma tarefa, a forma mais fácil de embaralhar a ordem de execução.
+    "paralelo, 4 processos, lote 1": lambda X: prever_paralelo(MODELO, X, processos=4, lote=1),
 }
 
 
@@ -53,6 +57,12 @@ class TestInferencia(unittest.TestCase):
         for nome, prever in ESTRATEGIAS.items():
             with self.subTest(nome), self.assertRaises(ValueError):
                 prever(X[:, :63])
+
+    def test_pool_reutilizado_nao_mistura_chamadas(self):
+        # A segunda chamada tem menos linhas que a capacidade: nada da primeira pode vazar.
+        with InferenciaParalela(MODELO, capacidade=len(X), processos=2) as paralela:
+            self.conferir(paralela.prever(X), ESPERADO)
+            self.conferir(paralela.prever(X[:10][::-1]), ESPERADO[:10][::-1])
 
     def test_lote_final_incompleto(self):
         self.assertEqual(fatias(128, 7)[-1], (126, 128))
