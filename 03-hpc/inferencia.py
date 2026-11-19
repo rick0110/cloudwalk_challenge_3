@@ -39,6 +39,18 @@ def prever_vetorizado(modelo: MLP, X: np.ndarray, lote: int | None = None) -> np
     return Y
 
 
+def prever_fundido(modelo: MLP, X: np.ndarray, w: np.ndarray, b: np.ndarray) -> np.ndarray:
+    """Extensão: y = X w + b, com w = W1 W2 e b = b1 W2 + b2 calculados uma vez antes.
+
+    Só vale porque não há ativação entre as camadas. Faz 64 multiplicações por linha em vez
+    de 64 x 32 + 32 = 2.080, então reduz o trabalho e não mede o efeito do paralelismo.
+    """
+    X = validar_entradas(modelo, X)
+    y = X @ w
+    y += b
+    return y
+
+
 # ---------------------------------------------------------------------------------------
 # Paralela: processos criados com spawn, entradas e saídas em memória compartilhada.
 #

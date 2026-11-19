@@ -9,7 +9,9 @@ import unittest
 
 import numpy as np
 
-from inferencia import InferenciaParalela, fatias, prever_paralelo, prever_vetorizado
+from inferencia import (
+    InferenciaParalela, fatias, prever_fundido, prever_paralelo, prever_vetorizado,
+)
 from mlp import ATOL, BASE, RTOL, carregar_modelo
 
 
@@ -26,6 +28,7 @@ ESTRATEGIAS = {
     "paralelo, 2 processos, lote 7": lambda X: prever_paralelo(MODELO, X, processos=2, lote=7),
     # Lote 1: cada linha é uma tarefa, a forma mais fácil de embaralhar a ordem de execução.
     "paralelo, 4 processos, lote 1": lambda X: prever_paralelo(MODELO, X, processos=4, lote=1),
+    "fundido": lambda X: prever_fundido(MODELO, X, MODELO.W_efetivo, MODELO.b_efetivo),
 }
 
 
