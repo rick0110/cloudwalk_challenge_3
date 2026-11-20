@@ -19,6 +19,11 @@ MODELO = carregar_modelo()
 X = np.load(BASE / "dados" / "exemplo" / "entradas.npy", allow_pickle=False)
 ESPERADO = np.load(BASE / "dados" / "exemplo" / "saidas_esperadas.npy", allow_pickle=False)
 
+def prever_por_pickle(X, lote=None):
+    with InferenciaParalela(MODELO, capacidade=len(X), processos=2) as paralela:
+        return paralela.prever_por_pickle(X, lote)
+
+
 # Cada estratégia recebe as entradas e devolve as saídas. Com lote 7, as 128 linhas
 # viram 18 lotes completos e um último lote incompleto, de 2 linhas.
 ESTRATEGIAS = {
@@ -28,6 +33,7 @@ ESTRATEGIAS = {
     "paralelo, 2 processos, lote 7": lambda X: prever_paralelo(MODELO, X, processos=2, lote=7),
     # Lote 1: cada linha é uma tarefa, a forma mais fácil de embaralhar a ordem de execução.
     "paralelo, 4 processos, lote 1": lambda X: prever_paralelo(MODELO, X, processos=4, lote=1),
+    "paralelo por pickle, lote 7": lambda X: prever_por_pickle(X, lote=7),
     "fundido": lambda X: prever_fundido(MODELO, X, MODELO.W_efetivo, MODELO.b_efetivo),
 }
 

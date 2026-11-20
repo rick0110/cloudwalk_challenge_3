@@ -78,6 +78,11 @@ def _calcular_fatia(fatia):
     _filho["Y"][inicio:fim] = calcular_camadas(_filho["modelo"], _filho["X"][inicio:fim])
 
 
+def _calcular_bloco(bloco):
+    """Só para comparação: o lote de X chega por pickle e o resultado volta por pickle."""
+    return calcular_camadas(_filho["modelo"], bloco)
+
+
 class InferenciaParalela:
     """Pool de processos (spawn) reutilizável, para até `capacidade` linhas por chamada."""
 
@@ -108,6 +113,13 @@ class InferenciaParalela:
         X = validar_entradas(self.modelo, X)
         self.X[: len(X)] = X
         return self.calcular(len(X), lote)
+
+    def prever_por_pickle(self, X: np.ndarray, lote: int | None = None) -> np.ndarray:
+        """Só para comparação: envia cada lote de X por pickle, sem a memória compartilhada."""
+        X = validar_entradas(self.modelo, X)
+        lote = lote or max(math.ceil(len(X) / self.processos), 1)
+        blocos = [X[inicio:fim] for inicio, fim in fatias(len(X), lote)]
+        return np.vstack(self.pool.map(_calcular_bloco, blocos, chunksize=1))
 
     def fechar(self):
         self.pool.close()
