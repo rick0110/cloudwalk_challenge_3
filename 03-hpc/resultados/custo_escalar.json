@@ -1,0 +1,34 @@
+{
+  "python": "3.12.3",
+  "numpy": "2.2.6",
+  "metodo": "timeit: menor de 5 medições de 1000000 execuções, descontado o laço vazio (pass)",
+  "codigo": {
+    "linha inteira do laço interno": [
+      "a += float(X[i, j]) * float(m.W1[j, k])",
+      1
+    ],
+    "ler um elemento do array e converter": [
+      "float(X[i, j])",
+      2
+    ],
+    "  só a leitura (cria um numpy.float64)": [
+      "X[i, j]",
+      2
+    ],
+    "buscar o atributo m.W1 do dataclass": [
+      "m.W1",
+      1
+    ],
+    "multiplicar e acumular floats": [
+      "a += b * c",
+      1
+    ]
+  },
+  "nanossegundos": {
+    "linha inteira do laço interno": 150.8557130000554,
+    "ler um elemento do array e converter": 64.36401800010572,
+    "  só a leitura (cria um numpy.float64)": 53.678020000006654,
+    "buscar o atributo m.W1 do dataclass": 3.091892000156804,
+    "multiplicar e acumular floats": 10.20107000022108
+  }
+}
