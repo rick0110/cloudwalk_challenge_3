@@ -121,4 +121,4 @@ processo e uma só thread.
   nem a referência escalar em 1 milhão de linhas (~6 minutos por chamada).
 
 Para reproduzir: `bash reproduzir.sh`. Dados completos e tabelas extras em
-`03-hpc/resultados/`; decisões e testes em `SOLUCAO.md`.
+`03-hpc/resultados/`; decisões e testes no `README.md`.
