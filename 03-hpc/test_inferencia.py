@@ -12,7 +12,8 @@ import numpy as np
 from inferencia import (
     InferenciaParalela, fatias, prever_fundido, prever_paralelo, prever_vetorizado,
 )
-from mlp import ATOL, BASE, RTOL, carregar_modelo
+from gerar_modelo import construir_modelo
+from mlp import ATOL, BASE, RTOL, carregar_modelo, prever_oraculo
 
 
 MODELO = carregar_modelo()
@@ -72,6 +73,19 @@ class TestInferencia(unittest.TestCase):
         with InferenciaParalela(MODELO, capacidade=len(X), processos=2) as paralela:
             self.conferir(paralela.prever(X), ESPERADO)
             self.conferir(paralela.prever(X[:10][::-1]), ESPERADO[:10][::-1])
+
+    def test_funciona_com_outra_arquitetura(self):
+        # Nada no código depende de 64 → 32 → 1: outra rede, com 3 saídas, contra o oráculo.
+        modelo = construir_modelo(seed=7, features=8, hidden=5, outputs=3)
+        entradas = np.random.default_rng(1).standard_normal((11, 8))
+        esperado = prever_oraculo(modelo, entradas)
+        for nome, prever in {
+            "vetorizado, lote 4": lambda X: prever_vetorizado(modelo, X, lote=4),
+            "paralelo, 2 processos, lote 4": lambda X: prever_paralelo(modelo, X, 2, lote=4),
+            "fundido": lambda X: prever_fundido(modelo, X, modelo.W_efetivo, modelo.b_efetivo),
+        }.items():
+            with self.subTest(nome):
+                self.conferir(prever(entradas), esperado)
 
     def test_lote_final_incompleto(self):
         self.assertEqual(fatias(128, 7)[-1], (126, 128))
