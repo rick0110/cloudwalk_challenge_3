@@ -1,0 +1,8 @@
+.git
+.venv
+**/__pycache__
+03-hpc/dados/pequeno
+03-hpc/dados/medio
+03-hpc/dados/grande
+03-hpc/dados/enorme
+03-hpc/resultados/demo.*
