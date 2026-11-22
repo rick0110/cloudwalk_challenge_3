@@ -10,3 +10,10 @@ __pycache__/
 
 # Saída do guia de demonstração rápida (README.md)
 03-hpc/resultados/demo.*
+
+# Arquivos auxiliares do LaTeX
+relatorio/*.aux
+relatorio/*.fdb_latexmk
+relatorio/*.fls
+relatorio/*.log
+relatorio/*.out

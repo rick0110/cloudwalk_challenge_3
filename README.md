@@ -4,7 +4,7 @@ Desafio 03 (HPC) · CloudWalk × IMPA Tech · Richard Elias Soares Viana
 
 Inferência vetorizada e paralela de um MLP 64 → 32 → 1 em CPU, com um benchmark
 reproduzível que mostra quando o paralelismo compensa, quanto custa e por quê. O relatório
-técnico, de duas páginas, está em [RELATORIO.md](RELATORIO.md).
+técnico, de duas páginas, está em [relatorio/relatorio.pdf](relatorio/relatorio.pdf).
 
 ## Visão geral
 
