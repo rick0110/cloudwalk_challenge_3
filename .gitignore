@@ -7,3 +7,6 @@ __pycache__/
 03-hpc/dados/medio/
 03-hpc/dados/grande/
 03-hpc/dados/enorme/
+
+# Saída do guia de demonstração rápida (README.md)
+03-hpc/resultados/demo.*
