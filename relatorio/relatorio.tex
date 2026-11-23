@@ -28,51 +28,45 @@
 {\LARGE\bfseries Inferência e paralelização em CPU}\\[3pt]
 Richard Elias Soares Viana \quad$\cdot$\quad Desafio 03 (HPC), CloudWalk \x{} IMPA Tech
 
-\textbf{Conclusão.} Para este MLP linear 64 $\to$ 32 $\to$ 1, paralelizar com processos não
-compensou. A execução paralela completa com 2 processos \texttt{spawn} foi mais lenta que a
-vetorizada em um processo em todos os tamanhos medidos, de 1 mil a 1 milhão de linhas. O
-cálculo em si fica de 2 a 4\x{} mais rápido quando dividido; o que pesa é criar os processos
-(cerca de 120~ms) e levar os dados até eles. Recomendo a vetorizada em um processo e, se
+\textbf{Conclusão.} Para o MLP linear 64 $\to$ 32 $\to$ 1 fornecido, paralelizar com
+processos não compensou: a execução paralela completa com 2 processos \texttt{spawn} foi mais
+lenta que a vetorizada em um processo em todos os tamanhos, de 1 mil a 1 milhão de linhas.
+O que pesa é criar os processos (cerca de 220~ms) e mover os dados, porque cada linha tem
+pouca conta. Com uma rede 32 vezes mais larga, a mesma implementação com o pool reutilizado
+passa a ganhar em todos os tamanhos (até 2,3\x). Recomendo a vetorizada em um processo e, se
 faltar vazão, as threads do BLAS.
 
 \section{Ambiente e protocolo}
 
 \begin{itemize}
-\item \textbf{Máquina:} VM Linux (KVM), 4 vCPUs Intel Xeon 2,3~GHz, 16,9~GB; Python 3.12.3,
-  NumPy 2.2.6, OpenBLAS 0.3.29. Uma thread nativa por processo
-  (\texttt{OPENBLAS\_NUM\_THREADS} e afins iguais a 1, definidos antes de importar o NumPy);
-  o \texttt{psutil} observou 1 thread no processo pai e 1 no filho.
+\item \textbf{Máquina:} notebook Intel Core i7-1185G7 (4 núcleos, 8 threads), 16~GB, Linux
+  no WSL2; Python 3.12.14, NumPy 2.2.6, OpenBLAS 0.3.29. Uma thread nativa por processo
+  (\texttt{OPENBLAS\_NUM\_THREADS} e afins iguais a 1, antes de importar o NumPy); o
+  \texttt{psutil} observou 1 thread no pai e 1 no filho.
 \item \textbf{Dados:} semente 2027; 1 mil, 10 mil e 100 mil linhas, e 1 milhão para conferir
-  a tendência. X fica inteiro na RAM antes de medir: leitura do disco e carga do modelo ficam
-  fora do intervalo medido; a validação das entradas (forma, tipo e valores finitos) fica
-  dentro, em todas as estratégias.
-\item \textbf{Medição:} \texttt{time.perf\_counter}, 1 aquecimento e 10 rodadas. Como o mesmo
-  cálculo de 100 mil linhas variou cerca de 30\% entre execuções (12 a 16~ms), cada rodada
-  mede todas as configurações do conjunto, em ordem sorteada, e o speedup é a mediana de
-  $t_{\text{vetorizada}}/t_{\text{estratégia}}$ dentro da mesma rodada. Cada configuração
-  roda duas vezes seguidas e só a segunda é medida, para não herdar o cache da anterior.
-\item \textbf{Correção:} antes de medir, todas as linhas das 75 configurações foram
-  conferidas com as saídas esperadas (\texttt{rtol} = \texttt{atol} = $10^{-10}$, forma, tipo,
-  valores finitos e ordem). A maior diferença foi $2{,}7\times10^{-15}$, e 64 configurações
-  deram resultados idênticos bit a bit.
+  a tendência. X fica inteiro na RAM antes de medir; leitura do disco e carga do modelo ficam
+  fora do intervalo medido, e a validação das entradas fica dentro, em todas as estratégias.
+\item \textbf{Medição:} \texttt{time.perf\_counter}, 1 aquecimento e 10 rodadas. Como a
+  velocidade da máquina varia entre execuções, cada rodada mede todas as configurações do
+  conjunto, em ordem sorteada, e o speedup é a mediana de
+  $t_{\text{vetorizada}}/t_{\text{estratégia}}$ dentro da mesma rodada. Cada configuração roda
+  duas vezes seguidas e só a segunda é medida. A memória é medida numa execução extra, com a
+  RSS do pai e dos filhos amostrada a cada 1~ms.
+\item \textbf{Correção:} antes de medir, todas as linhas das 129 configurações (duas redes)
+  foram conferidas com as saídas esperadas (\texttt{rtol} = \texttt{atol} = $10^{-10}$,
+  forma, tipo, valores finitos e ordem). A maior diferença foi $4{,}9\times10^{-15}$.
 \end{itemize}
 
 \section{Implementação}
 
 Todas as estratégias usam o mesmo núcleo, $H = XW_1 + b_1$, $y = HW_2 + b_2$, com produtos de
-matrizes e os biases somados \emph{in-place}, o que evita alocar uma segunda matriz
-$n\times32$. A \textbf{vetorizada} aplica o núcleo em um processo; a \textbf{paralela} é a
-mesma conta, com o laço de lotes distribuído entre processos \texttt{spawn}:
-\begin{itemize}
-\item \textbf{Entradas e saídas} ficam em memória compartilhada (\texttt{RawArray}). O pai
-  copia X uma vez; cada filho lê só a sua fatia e grava em \texttt{Y[início:fim]}, o que
-  preserva a ordem das linhas.
-\item \textbf{Pesos} (17~KB) são enviados uma vez a cada filho, na criação do processo.
-\item \textbf{Tarefas} são apenas o par \texttt{(início, fim)}. O lote padrão é
-  $\lceil n/\text{processos}\rceil$: como toda linha custa o mesmo, uma tarefa por processo
-  divide o trabalho por igual com o mínimo de mensagens. Com \texttt{chunksize=1}, são
-  $\lceil n/\text{lote}\rceil$ tarefas, ou seja, 2 com 2 processos.
-\end{itemize}
+matrizes e biases somados \emph{in-place}. A \textbf{vetorizada} aplica o núcleo em um
+processo; a \textbf{paralela} distribui os lotes entre processos \texttt{spawn}. Entradas e
+saídas ficam em memória compartilhada (\texttt{RawArray}): o pai copia X uma vez, e cada filho
+lê a sua fatia e grava em \texttt{Y[início:fim]}, o que preserva a ordem. Os pesos (17~KB) vão
+uma vez a cada filho, na criação. As tarefas são só o par \texttt{(início, fim)}; o lote
+padrão é $\lceil n/\text{processos}\rceil$, uma tarefa por processo, e com
+\texttt{chunksize=1} são $\lceil n/\text{lote}\rceil$ tarefas.
 
 \section{Resultados}
 
@@ -84,16 +78,16 @@ relação à vetorizada (1/$k$ = $k$ vezes mais lenta).}
 \toprule
 Linhas & Escalar & Vetorizada & \cab{Paralela completa,\\2 processos} & \cab{Speedup da\\paralela} \\
 \midrule
-1.000 & 331 [315 -- 388] & 0,120 [0,110 -- 0,189] & 123 [117 -- 158] & 1/1.046 \\
-10.000 & 3.304 [3.203 -- 3.530] & 1,67 [1,30 -- 2,13] & 125 [119 -- 139] & 1/73 \\
-100.000 & 33.799 [33.119 -- 34.624] & 21,8 [19,4 -- 24,9] & 172 [163 -- 189] & 0,13\x \\
-1.000.000 & -- & 279 [265 -- 314] & 605 [568 -- 682] & 0,46\x \\
+1.000 & 851 [783 -- 1.020] & 0,176 [0,161 -- 0,276] & 224 [197 -- 265] & 1/1.222 \\
+10.000 & 8.973 [8.019 -- 10.325] & 2,59 [1,86 -- 8,82] & 242 [198 -- 389] & 1/95 \\
+100.000 & 77.178 [53.945 -- 89.758] & 23,1 [18,4 -- 30,4] & 252 [177 -- 353] & 1/11 \\
+1.000.000 & -- & 229 [211 -- 258] & 652 [524 -- 1.469] & 0,36\x \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Throughput: escalar, cerca de 3 mil observações/s; vetorizada, de 3,6 a 8,3 milhões/s;
-paralela completa, de 8 mil a 1,7 milhão/s.
+Throughput: escalar, cerca de 1,2 mil observações/s; vetorizada, de 3,9 a 5,7 milhões/s;
+paralela completa, de 4,5 mil a 1,5 milhão/s.
 
 \begin{figure}[h]
 \centering
@@ -105,41 +99,40 @@ paralela completa, de 8 mil a 1,7 milhão/s.
 
 \begin{enumerate}
 \item \textbf{A referência escalar é lenta pelo interpretador, não pela conta.} A linha mais
-  executada (2.080 vezes por observação) custa cerca de 151~ns: 85\% vão na leitura de
-  elementos do array, um a um (cada leitura cria um objeto \texttt{numpy.float64}), e só 7\%
-  na multiplicação e soma. Isso estima 314~\textmu s por observação; o medido foi 338~\textmu s.
-  A vetorizada troca os laços por dois produtos de matrizes e é de 1.544 a 2.758\x{} mais
-  rápida.
-\item \textbf{Criar processos custa cerca de 120~ms fixos.} Com 1 mil linhas, em que os dados
-  são desprezíveis, a paralela completa levou 123~ms com 2 processos e 126~ms com 4: é o
-  tempo de iniciar um interpretador por filho, importar o NumPy e encerrar. Equivale a
-  calcular cerca de 550 mil linhas na vetorizada.
-\item \textbf{Validar e copiar os dados custa mais que o cálculo dividido.} Na
-  Tabela~\ref{tab:cenarios}, com o pool já criado e X já na memória compartilhada, 2
-  processos calculam 100 mil linhas em 9,6~ms; validar e copiar X soma 13,9~ms, e essa parte é
-  serial, no processo pai.
+  executada (2.080 vezes por observação) custa cerca de 362~ns: 84\% vão na leitura de
+  elementos do array, um a um, e só 8\% na multiplicação e soma. Isso estima 752~\textmu s
+  por observação; o medido foi 772~\textmu s. A vetorizada é de 2.919 a 4.778\x{} mais rápida.
+\item \textbf{Criar processos custa cerca de 220~ms fixos.} Com 1 mil linhas, a paralela
+  completa levou 224~ms com 2 processos e 258~ms com 4: é o tempo de iniciar um interpretador
+  por filho, importar o NumPy e encerrar, o equivalente a calcular quase 1 milhão de linhas.
+\item \textbf{Mover os dados pesa tanto quanto calcular.} Com 100 mil linhas e 2 processos,
+  já com o pool criado e X na memória compartilhada, o cálculo leva 13,3~ms; validar e copiar
+  X acrescenta 7,1~ms, em série, no processo pai. Enviar os lotes por pickle foi de 6 a 9\x{}
+  mais lento que usar memória compartilhada.
 \item \textbf{Não compensa nem com $n$ muito grande.} Entre 100 mil e 1 milhão de linhas,
-  cada linha adicional custou 481~ns na paralela completa e 286~ns na vetorizada: alocar
+  cada linha adicional custou 444~ns na paralela completa e 228~ns na vetorizada: alocar
   memória compartilhada nova e copiar X custam mais por linha do que o cálculo dividido
-  economiza. Pela tendência, o speedup fica abaixo de 0,6\x{} (0,65\x{} com 4 processos); o
-  maior valor medido foi 0,46\x, com 1 milhão de linhas.
-\item \textbf{Entre as opções com processos, a memória compartilhada é a melhor.} Enviar cada
-  lote de X por pickle, no mesmo pool já criado, foi de 5 a 7\x{} mais lento (133 contra
-  25,8~ms com 100 mil linhas).
+  economiza. Pela tendência, o speedup fica perto de 0,5\x; o maior valor medido foi 0,36\x.
+\item \textbf{Memória.} Numa chamada com 1 milhão de linhas, a paralela completa acrescentou
+  cerca de 1,3~GB de RSS (interpretadores novos e memória compartilhada recém-alocada), o
+  pool pronto 256~MB (só o temporário $H$) e o envio por pickle 537~MB (cópias de X em
+  trânsito). A RSS conta as páginas compartilhadas em cada processo que as toca.
 \end{enumerate}
 
 \begin{table}[h]
 \centering\small
-\caption{Cenários com 100 mil linhas, em ms. As diferenças são medianas pareadas e agregam
-várias parcelas.}
-\label{tab:cenarios}
-\begin{tabular}{rrrrrrr}
+\caption{Rede 64 $\to$ 1024 $\to$ 1: 32 vezes mais conta por linha, com os mesmos dados.
+Speedup pareado em relação à vetorizada.}
+\begin{tabular}{lrrr}
 \toprule
-Processos & Vetorizada & \cab{Pool pronto,\\sem cópia} & Pool pronto & Completa &
-\cab{Validar e\\copiar X} & \cab{Criar processos e\\alocar memória} \\
+Estratégia & 1.000 & 10.000 & 100.000 \\
 \midrule
-2 & 21,8 & 9,62 & 25,8 & 172 & 13,9 & 142 \\
-4 & 21,8 & 6,72 & 20,0 & 175 & 13,3 & 155 \\
+Vetorizada, 1 processo (ms) & 4,11 & 51,9 & 454 \\
+Paralela completa, 2 processos & 1/69 & 0,17\x & 0,75\x \\
+Pool pronto, 2 processos & 1,19\x & 1,66\x & 1,53\x \\
+Pool pronto, 4 processos & 1,27\x & 2,28\x & 1,91\x \\
+Pool pronto, dados por pickle, 2 processos & 0,94\x & 1,32\x & 1,21\x \\
+Vetorizada, 4 threads do BLAS & 2,14\x & 1,81\x & 1,48\x \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -147,42 +140,29 @@ Processos & Vetorizada & \cab{Pool pronto,\\sem cópia} & Pool pronto & Completa
 \section{Extensões}
 
 \begin{itemize}
-\item \textbf{Lotes e 4 processos.} Com o pool pronto, 4 processos chegam a 1,12\x{} (100
-  mil) e 1,57\x{} (1 milhão). Parte disso vem do lote: a própria vetorizada em lotes de
-  4.096 linhas fica 1,37\x{} mais rápida com 1 milhão, porque deixa de alocar de uma vez um
-  temporário $H$ de 256~MB. Com o mesmo lote nas duas, 2 processos empatam (1,38\x{} contra
-  1,37\x) e 4 processos ganham cerca de 1,2\x. Lotes de 512 linhas geram até 1.954 tarefas e
-  pioram: cada tarefa a mais custou de 10 a 17~\textmu s.
-\item \textbf{Threads do BLAS, sem processos.} Aumentar o número de threads do OpenBLAS no
-  próprio processo deu de 1,29 a 1,39\x{} com 2 threads e de 1,47 a 1,76\x{} com 4, a partir de
-  10 mil linhas, sem cópia nem criação de processos: as threads leem o mesmo X.
-\item \textbf{Fusão $y = Xw + b$.} São 64 multiplicações por linha em vez de 2.080: 2,9\x{}
-  (5,6\x{} com 1 mil linhas). Preparar $w$ e $b$ leva 3,7~\textmu s e se paga na primeira
-  chamada. A fusão reduz trabalho e não mede paralelismo; só vale enquanto não houver ativação
-  entre as camadas.
+\item \textbf{Rede mais larga.} Com 32 vezes mais conta por linha e os mesmos 512 bytes de
+  entrada, mover os dados fica barato diante do cálculo: o pool reutilizado ganha em todos os
+  tamanhos, até com pickle, e a paralela completa sobe para 0,75\x{} com 100 mil linhas. O que
+  decide se os processos compensam é a quantidade de conta por byte movido.
+\item \textbf{Pool pronto, 4 processos e lotes.} No modelo fornecido, o pool pronto chega a
+  1,20\x{} com 2 processos e 1,48\x{} com 4, com 1 milhão de linhas; com X já na memória
+  compartilhada, 1,93 e 2,75\x. A vetorizada em lotes de 4.096 linhas também ganha 1,22\x,
+  por não alocar de uma vez o temporário $H$. Lotes de 512 linhas geram até 1.954 tarefas e
+  pioram: cada tarefa a mais custou de 30 a 130~\textmu s.
+\item \textbf{Threads do BLAS e fusão.} Mais threads do OpenBLAS no próprio processo deram de
+  1,22 a 1,32\x{} a partir de 10 mil linhas, sem criar processos. A fusão $y = Xw + b$ faz 64
+  multiplicações por linha em vez de 2.080 e deu de 3,2 a 5,1\x; preparar $w$ e $b$ leva
+  3,4~\textmu s e se paga na primeira chamada, mas só vale sem ativação entre as camadas.
 \end{itemize}
 
-\section{Recomendação}
+\section{Recomendação e limitações}
 
-Para este modelo, a vetorizada em um processo, em lotes de alguns milhares de linhas quando a
-entrada é grande. Para mais vazão na mesma máquina, as threads do BLAS (até 1,76\x{} com 4).
-Processos só compensam com o pool reutilizado e dados que já estejam na memória compartilhada
-(de 2,1 a 4,0\x{} nesse cenário); criar processos a cada chamada não compensou em nenhum
-tamanho. Enquanto o modelo for linear, a fusão das camadas dá cerca de 2,9\x{} com um único
-processo e uma única thread.
-
-\section{Limitações}
-
-\begin{itemize}
-\item Uma única VM compartilhada de 4 vCPUs: o pareamento protege as comparações, mas os
-  tempos absolutos variam entre execuções. O teto de 0,6\x{} vem da tendência entre dois
-  tamanhos.
-\item O cenário ``pool pronto, sem cópia'' não valida nem copia as entradas: é um limite
-  superior do ganho com processos, não uma estratégia completa, por isso passa de 2\x{} com 2
-  processos.
-\item A memória não foi medida (por construção, X existe duas vezes e cada filho só aloca o
-  próprio lote), nem a referência escalar com 1 milhão de linhas (cerca de 6 minutos por
-  chamada).
-\end{itemize}
+Para o modelo fornecido, a vetorizada em um processo, em lotes de alguns milhares de linhas
+para entradas grandes, e as threads do BLAS se faltar vazão. Processos só compensam com o pool
+reutilizado e bastante conta por linha. As medições vêm de uma única máquina, um notebook no
+WSL2, onde os tempos absolutos variam entre execuções (o pareamento protege as comparações);
+o teto de 0,5\x{} vem da tendência entre dois tamanhos; o cenário ``X já na memória
+compartilhada'' não valida nem copia as entradas e é um limite superior; e a referência
+escalar não foi medida com 1 milhão de linhas.
 
 \end{document}
