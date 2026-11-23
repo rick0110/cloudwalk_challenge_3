@@ -3,6 +3,8 @@
 Uso (a partir da raiz do projeto, depois de gerar os conjuntos; veja reproduzir.sh):
     uv run --frozen python 03-hpc/benchmark.py
     uv run --frozen python 03-hpc/benchmark.py --conjuntos pequeno medio --repeticoes 5
+    uv run --frozen python 03-hpc/benchmark.py --modelo 03-hpc/modelo_largo/modelo.npz \
+        --conjuntos largo_medio --estrategias vetorizado paralelo --saida 03-hpc/resultados/largo
 
 Protocolo:
 - Correção antes de desempenho: cada configuração roda uma vez (aquecimento) e esse
@@ -20,6 +22,8 @@ Protocolo:
   copiar X, calcular, coletar Y e encerrar os processos.
 - Fora do intervalo: leitura do disco (X já está residente na RAM), carregamento do modelo,
   conferência dos resultados e ajuste do limite de threads. Igual para todas as estratégias.
+- Memória: depois das rodadas, cada configuração roda mais uma vez, fora do tempo medido,
+  com a RSS do pai e dos filhos amostrada a cada 1 ms (base, pico e número de amostras).
 - Threads: 1 thread nativa por processo (variáveis de ambiente definidas antes de importar o
   NumPy). Só as configurações "threads do BLAS" sobem esse limite, no processo pai, com
   threadpoolctl.
@@ -45,6 +49,7 @@ import multiprocessing as mp
 import platform
 import random
 import statistics
+import threading
 import time
 from functools import partial
 from pathlib import Path
@@ -54,7 +59,7 @@ import psutil
 from threadpoolctl import threadpool_limits
 
 from inferencia import InferenciaParalela, prever_fundido, prever_paralelo, prever_vetorizado
-from mlp import ATOL, BASE, RTOL, carregar_modelo, prever_referencia
+from mlp import ATOL, BASE, MODELO_PADRAO, RTOL, carregar_modelo, prever_referencia
 
 
 CONJUNTOS = ("pequeno", "medio", "grande", "enorme")
@@ -138,6 +143,38 @@ def medir_em_rodadas(configuracoes, esperado, repeticoes):
                 config["tempos"].append(time.perf_counter() - inicio)
 
 
+def medir_memoria(funcao, intervalo_s=0.001):
+    """Executa `funcao` uma vez e amostra a RSS do pai somada à dos filhos a cada 1 ms.
+
+    Páginas compartilhadas (como a memória compartilhada de X) entram uma vez em cada
+    processo que as toca, e picos mais curtos que o intervalo podem escapar.
+    """
+    processo = psutil.Process()
+
+    def rss_total():
+        total = processo.memory_info().rss
+        for filho in processo.children(recursive=True):
+            try:
+                total += filho.memory_info().rss
+            except psutil.NoSuchProcess:  # filho que terminou entre a listagem e a leitura
+                pass
+        return total
+
+    base, amostras, parar = rss_total(), [], threading.Event()
+
+    def amostrar():
+        while not parar.is_set():
+            amostras.append(rss_total())
+            time.sleep(intervalo_s)
+
+    amostrador = threading.Thread(target=amostrar)
+    amostrador.start()
+    funcao()
+    parar.set()
+    amostrador.join()
+    return base / 1e6, max(amostras + [base]) / 1e6, len(amostras)
+
+
 def razao_pareada(base, config):
     """Mediana, entre as rodadas, de tempo_base / tempo_estratégia na mesma rodada."""
     return statistics.median(b / t for b, t in zip(base["tempos"], config["tempos"]))
@@ -151,6 +188,11 @@ def medir_conjunto(nome, modelo, estrategias, repeticoes):
     pools = {p: InferenciaParalela(modelo, n, p) for p in PROCESSOS} if "paralelo" in estrategias else {}
     configuracoes = montar_configuracoes(modelo, X, estrategias, pools)
     medir_em_rodadas(configuracoes, esperado, repeticoes)
+    for config in configuracoes:  # memória: uma execução extra, fora do tempo medido
+        config["memoria"] = (None, None, None)
+        if config["estrategia"] != "escalar":
+            with threadpool_limits(limits=config["threads"], user_api="blas"):
+                config["memoria"] = medir_memoria(config["funcao"])
     for paralela in pools.values():
         paralela.fechar()
 
@@ -178,6 +220,9 @@ def medir_conjunto(nome, modelo, estrategias, repeticoes):
             "speedup_vs_vetorizado": razao_pareada(base, config),
             "speedup_vs_escalar": razao_pareada(escalar, config) if escalar else None,
             "max_dif_abs": config["max_dif_abs"],
+            "rss_base_mb": config["memoria"][0],
+            "rss_pico_mb": config["memoria"][1],
+            "rss_amostras": config["memoria"][2],
         })
         print(f"{nome:8s} {config['estrategia']:10s} {config['cenario']:24s} "
               f"p={config['processos']} t={config['threads']} lote={config['lote']:<7d} "
@@ -260,12 +305,16 @@ def main():
     parser.add_argument("--estrategias", nargs="+", choices=ESTRATEGIAS, default=ESTRATEGIAS)
     parser.add_argument("--repeticoes", type=int, default=10,
                         help="Rodadas medidas (padrão: 10; o mínimo pedido é 5).")
+    parser.add_argument("--modelo", type=Path, default=MODELO_PADRAO,
+                        help="Arquivo .npz do modelo (padrão: o modelo fornecido).")
     parser.add_argument("--saida", type=Path, default=BASE / "resultados" / "benchmark",
                         help="Prefixo dos arquivos .csv e .json de saída.")
     args = parser.parse_args()
 
-    modelo = carregar_modelo()
+    modelo = carregar_modelo(args.modelo)
     ambiente = descrever_ambiente(modelo, args.repeticoes)
+    ambiente["modelo"] = {"arquivo": str(args.modelo), "arquitetura": [
+        modelo.features, modelo.hidden, modelo.outputs]}
     print(json.dumps(ambiente, indent=2, ensure_ascii=False))
     linhas = []
     for nome in args.conjuntos:
