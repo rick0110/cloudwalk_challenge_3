@@ -6,11 +6,11 @@ Gerado por `03-hpc/resumo.py`.
 
 ```json
 {
-  "sistema": "Linux-6.18.44-fc-v553-x86_64-with-glibc2.39",
-  "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
-  "cpus_logicas": 4,
-  "memoria_total_gb": 16.9,
-  "python": "3.12.3",
+  "sistema": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "cpu": "11th Gen Intel(R) Core(TM) i7-1185G7 @ 3.00GHz",
+  "cpus_logicas": 8,
+  "memoria_total_gb": 16.3,
+  "python": "3.12.14",
   "numpy": "2.2.6",
   "blas": {
     "name": "scipy-openblas",
@@ -34,9 +34,17 @@ Gerado por `03-hpc/resumo.py`.
   "aquecimentos": 1,
   "rodadas": 10,
   "dados": "X residente na RAM (np.load sem mmap); leitura do disco fora do intervalo",
-  "preparo_fundido_s": 3.720499989867676e-06,
+  "preparo_fundido_s": 3.4280019463039935e-06,
   "rtol": 1e-10,
-  "atol": 1e-10
+  "atol": 1e-10,
+  "modelo": {
+    "arquivo": "/home/dell/projects/cloudwalk_challenge_3/03-hpc/modelo/modelo.npz",
+    "arquitetura": [
+      64,
+      32,
+      1
+    ]
+  }
 }
 ```
 
@@ -44,103 +52,126 @@ Gerado por `03-hpc/resumo.py`.
 
 | Conjunto (linhas) | Estratégia | Lote (tarefas) | Mediana [mín – máx] ms | Throughput (obs/s) | Speedup vs vetorizada |
 |---|---|---|---|---|---|
-| pequeno (1.000) | escalar (referência) | 1.000 (1) | 331 [315 – 388] | 3.020 | 1/2.758 |
-| pequeno (1.000) | vetorizada, 1 processo | 1.000 (1) | 0,120 [0,110 – 0,189] | 8.315.663 | 1× |
-| pequeno (1.000) | paralela completa, 2 processos | 500 (2) | 123 [117 – 158] | 8.162 | 1/1.046 |
-| medio (10.000) | escalar (referência) | 10.000 (1) | 3.304 [3.203 – 3.530] | 3.026 | 1/1.948 |
-| medio (10.000) | vetorizada, 1 processo | 10.000 (1) | 1,67 [1,30 – 2,13] | 5.978.614 | 1× |
-| medio (10.000) | paralela completa, 2 processos | 5.000 (2) | 125 [119 – 139] | 79.864 | 1/73 |
-| grande (100.000) | escalar (referência) | 100.000 (1) | 33.799 [33.119 – 34.624] | 2.959 | 1/1.544 |
-| grande (100.000) | vetorizada, 1 processo | 100.000 (1) | 21,8 [19,4 – 24,9] | 4.594.657 | 1× |
-| grande (100.000) | paralela completa, 2 processos | 50.000 (2) | 172 [163 – 189] | 582.139 | 0,13× |
-| enorme (1.000.000) | vetorizada, 1 processo | 1.000.000 (1) | 279 [265 – 314] | 3.580.313 | 1× |
-| enorme (1.000.000) | paralela completa, 2 processos | 500.000 (2) | 605 [568 – 682] | 1.654.079 | 0,459× |
+| pequeno (1.000) | escalar (referência) | 1.000 (1) | 851 [783 – 1.020] | 1.175 | 1/4.778 |
+| pequeno (1.000) | vetorizada, 1 processo | 1.000 (1) | 0,176 [0,161 – 0,276] | 5.694.209 | 1× |
+| pequeno (1.000) | paralela completa, 2 processos | 500 (2) | 224 [197 – 265] | 4.471 | 1/1.222 |
+| medio (10.000) | escalar (referência) | 10.000 (1) | 8.973 [8.019 – 10.325] | 1.114 | 1/3.625 |
+| medio (10.000) | vetorizada, 1 processo | 10.000 (1) | 2,59 [1,86 – 8,82] | 3.867.482 | 1× |
+| medio (10.000) | paralela completa, 2 processos | 5.000 (2) | 242 [198 – 389] | 41.240 | 1/95 |
+| grande (100.000) | escalar (referência) | 100.000 (1) | 77.178 [53.945 – 89.758] | 1.296 | 1/2.919 |
+| grande (100.000) | vetorizada, 1 processo | 100.000 (1) | 23,1 [18,4 – 30,4] | 4.335.082 | 1× |
+| grande (100.000) | paralela completa, 2 processos | 50.000 (2) | 252 [177 – 353] | 397.093 | 1/11 |
+| enorme (1.000.000) | vetorizada, 1 processo | 1.000.000 (1) | 229 [211 – 258] | 4.373.044 | 1× |
+| enorme (1.000.000) | paralela completa, 2 processos | 500.000 (2) | 652 [524 – 1.469] | 1.534.859 | 0,357× |
 
 ## Tabela 2. Quando cada estratégia compensa
 
 | Speedup vs vetorizada (mediana pareada) | pequeno | medio | grande | enorme |
 |---|---|---|---|---|
-| paralela completa, 2 processos | 1/1.046 | 1/73 | 0,13× | 0,459× |
-| paralela completa, 4 processos | 1/1.071 | 1/78 | 0,127× | 0,499× |
-| pool pronto, 2 processos | 0,186× | 0,707× | 0,817× | 1,24× |
-| pool pronto, 4 processos | 0,136× | 0,785× | 1,12× | 1,57× |
-| pool pronto sem cópia, 2 processos | 0,192× | 1,12× | 2,1× | 2,25× |
-| pool pronto sem cópia, 4 processos | 0,202× | 1,31× | 3,17× | 4,04× |
-| pool pronto por pickle, 2 processos | 1/12 | 0,121× | 0,162× | 0,192× |
-| pool pronto por pickle, 4 processos | 1/12 | 0,208× | 0,231× | 0,216× |
-| vetorizada, 2 threads do BLAS | 0,988× | 1,29× | 1,39× | 1,36× |
-| vetorizada, 4 threads do BLAS | 1,09× | 1,47× | 1,7× | 1,76× |
-| vetorizada, lote 4.096 | 0,956× | 1,03× | 0,997× | 1,37× |
-| vetorizada, lote 512 | 1,04× | 1,06× | 1,13× | 1,39× |
-| fundida y = Xw + b | 5,6× | 2,92× | 2,89× | 2,88× |
-| escalar (referência) | 1/2.758 | 1/1.948 | 1/1.544 | — |
+| paralela completa, 2 processos | 1/1.222 | 1/95 | 1/11 | 0,357× |
+| paralela completa, 4 processos | 1/1.467 | 1/118 | 1/13 | 0,335× |
+| pool pronto, 2 processos | 0,135× | 0,66× | 1,11× | 1,2× |
+| pool pronto, 4 processos | 0,111× | 0,723× | 1,31× | 1,48× |
+| pool pronto sem cópia, 2 processos | 0,13× | 1,01× | 1,59× | 1,93× |
+| pool pronto sem cópia, 4 processos | 0,138× | 1,04× | 2,41× | 2,75× |
+| pool pronto por pickle, 2 processos | 1/16 | 0,147× | 0,174× | 0,155× |
+| pool pronto por pickle, 4 processos | 1/13 | 0,161× | 0,193× | 0,166× |
+| vetorizada, 2 threads do BLAS | 1,16× | 1,25× | 1,32× | 1,22× |
+| vetorizada, 4 threads do BLAS | 0,809× | 1,12× | 1,29× | 1,21× |
+| vetorizada, lote 4.096 | 0,907× | 1,18× | 1,14× | 1,22× |
+| vetorizada, lote 512 | 0,813× | 1,18× | 1,11× | 1,14× |
+| fundida y = Xw + b | 4,76× | 5,13× | 3,29× | 3,24× |
+| escalar (referência) | 1/4.778 | 1/3.625 | 1/2.919 | — |
 
 ## Tabela 3. Para onde vai o tempo da execução paralela
 
 | Conjunto | Processos | Vetorizada | Pool pronto, sem cópia | Pool pronto | Completa | Validação + cópia (pronto − sem cópia) | Criar e encerrar processos + alocar memória compartilhada (completa − pronto) |
 |---|---|---|---|---|---|---|---|
-| grande | 2 | 21,8 | 9,62 | 25,8 | 172 | 13,9 | 142 |
-| grande | 4 | 21,8 | 6,72 | 20,0 | 175 | 13,3 | 155 |
-| enorme | 2 | 279 | 123 | 226 | 605 | 104 | 382 |
-| enorme | 4 | 279 | 71,7 | 179 | 573 | 106 | 389 |
+| grande | 2 | 23,1 | 13,3 | 20,6 | 252 | 7,05 | 233 |
+| grande | 4 | 23,1 | 10,3 | 17,0 | 297 | 6,97 | 280 |
+| enorme | 2 | 229 | 123 | 191 | 652 | 66,2 | 465 |
+| enorme | 4 | 229 | 82,9 | 151 | 694 | 65,5 | 537 |
 
 ## Tabela 4. Custo por linha adicional
 
 | Estratégia | Custo por linha adicional (ns), grande → enorme | Teto do speedup (n → ∞) |
 |---|---|---|
-| vetorizada, 1 processo (base) | 286 | 1× |
-| paralela completa, 2 processos | 481 | 0,595× |
-| paralela completa, 4 processos | 443 | 0,646× |
-| pool pronto, 2 processos | 223 | 1,28× |
-| pool pronto, 4 processos | 177 | 1,62× |
-| pool pronto sem cópia, 2 processos | 126 | 2,27× |
-| pool pronto sem cópia, 4 processos | 72 | 3,97× |
-| pool pronto por pickle, 2 processos | 1494 | 0,192× |
-| pool pronto por pickle, 4 processos | 1349 | 0,212× |
-| vetorizada, 2 threads do BLAS | 210 | 1,36× |
-| vetorizada, 4 threads do BLAS | 159 | 1,8× |
-| vetorizada, lote 4.096 | 204 | 1,41× |
-| vetorizada, lote 512 | 204 | 1,4× |
-| fundida y = Xw + b | 101 | 2,85× |
+| vetorizada, 1 processo (base) | 228 | 1× |
+| paralela completa, 2 processos | 444 | 0,514× |
+| paralela completa, 4 processos | 441 | 0,519× |
+| pool pronto, 2 processos | 190 | 1,2× |
+| pool pronto, 4 processos | 149 | 1,54× |
+| pool pronto sem cópia, 2 processos | 121 | 1,88× |
+| pool pronto sem cópia, 4 processos | 81 | 2,83× |
+| pool pronto por pickle, 2 processos | 1461 | 0,156× |
+| pool pronto por pickle, 4 processos | 1428 | 0,16× |
+| vetorizada, 2 threads do BLAS | 184 | 1,24× |
+| vetorizada, 4 threads do BLAS | 188 | 1,22× |
+| vetorizada, lote 4.096 | 185 | 1,23× |
+| vetorizada, lote 512 | 194 | 1,18× |
+| fundida y = Xw + b | 71 | 3,23× |
 
 ## Tabela 5. Tamanho do lote
 
 | Conjunto | Processos | Lote | Tarefas | Mediana [mín – máx] ms | Speedup vs vetorizada (lote único) |
 |---|---|---|---|---|---|
-| grande | 2 | 50.000 | 2 | 25,8 [21,1 – 38,2] | 0,817× |
-| grande | 2 | 4.096 | 25 | 25,1 [20,3 – 32,2] | 0,86× |
-| grande | 2 | 512 | 196 | 26,9 [22,9 – 60,1] | 0,778× |
-| grande | 4 | 25.000 | 4 | 20,0 [18,6 – 24,1] | 1,12× |
-| grande | 4 | 4.096 | 25 | 21,3 [16,1 – 34,5] | 1,06× |
-| grande | 4 | 512 | 196 | 23,0 [21,2 – 28,7] | 0,918× |
-| grande | 1 | 4.096 | 25 | 21,0 [18,3 – 27,8] | 0,997× |
-| grande | 1 | 512 | 196 | 19,4 [18,1 – 22,2] | 1,13× |
-| enorme | 2 | 500.000 | 2 | 226 [196 – 264] | 1,24× |
-| enorme | 2 | 4.096 | 245 | 200 [194 – 239] | 1,38× |
-| enorme | 2 | 512 | 1954 | 229 [216 – 252] | 1,23× |
-| enorme | 4 | 250.000 | 4 | 179 [173 – 200] | 1,57× |
-| enorme | 4 | 4.096 | 245 | 171 [157 – 185] | 1,66× |
-| enorme | 4 | 512 | 1954 | 198 [174 – 217] | 1,41× |
-| enorme | 1 | 4.096 | 245 | 204 [195 – 227] | 1,37× |
-| enorme | 1 | 512 | 1954 | 203 [177 – 213] | 1,39× |
+| grande | 2 | 50.000 | 2 | 20,6 [17,1 – 29,7] | 1,11× |
+| grande | 2 | 4.096 | 25 | 22,6 [17,7 – 29,8] | 1× |
+| grande | 2 | 512 | 196 | 31,8 [21,6 – 43,0] | 0,716× |
+| grande | 4 | 25.000 | 4 | 17,0 [14,4 – 21,2] | 1,31× |
+| grande | 4 | 4.096 | 25 | 18,2 [14,6 – 23,1] | 1,25× |
+| grande | 4 | 512 | 196 | 23,8 [20,1 – 38,5] | 0,905× |
+| grande | 1 | 4.096 | 25 | 20,4 [16,0 – 24,9] | 1,14× |
+| grande | 1 | 512 | 196 | 21,7 [16,9 – 30,2] | 1,11× |
+| enorme | 2 | 500.000 | 2 | 191 [175 – 384] | 1,2× |
+| enorme | 2 | 4.096 | 245 | 193 [170 – 243] | 1,2× |
+| enorme | 2 | 512 | 1954 | 246 [214 – 293] | 0,911× |
+| enorme | 4 | 250.000 | 4 | 151 [141 – 172] | 1,48× |
+| enorme | 4 | 4.096 | 245 | 145 [131 – 208] | 1,55× |
+| enorme | 4 | 512 | 1954 | 361 [239 – 430] | 0,655× |
+| enorme | 1 | 4.096 | 245 | 187 [169 – 233] | 1,22× |
+| enorme | 1 | 512 | 1954 | 197 [175 – 228] | 1,14× |
 
 ## Tabela 6. Amortização do preparo da fusão
 
 | Conjunto | Preparo de w e b (uma vez) | Economia por chamada (ms) | Chamadas para amortizar | Speedup vs vetorizada |
 |---|---|---|---|---|
-| pequeno | 3,7 µs | 0,0997 | 1 | 5,6× |
-| medio | 3,7 µs | 1,08 | 1 | 2,92× |
-| grande | 3,7 µs | 14,2 | 1 | 2,89× |
-| enorme | 3,7 µs | 183 | 1 | 2,88× |
+| pequeno | 3,4 µs | 0,134 | 1 | 4,76× |
+| medio | 3,4 µs | 1,89 | 1 | 5,13× |
+| grande | 3,4 µs | 16,5 | 1 | 3,29× |
+| enorme | 3,4 µs | 158 | 1 | 3,24× |
 
 ## Tabela 7. Custo da referência escalar
 
 | Parte | Código | ns | Vezes na linha | % da linha |
 |---|---|---|---|---|
-| linha inteira do laço interno | `a += float(X[i, j]) * float(m.W1[j, k])` | 151 | 1 | 100% |
-| ler um elemento do array e converter | `float(X[i, j])` | 64 | 2 | 85% |
-| só a leitura (cria um numpy.float64) | `X[i, j]` | 54 | 2 | 71% |
-| buscar o atributo m.W1 do dataclass | `m.W1` | 3 | 1 | 2% |
-| multiplicar e acumular floats | `a += b * c` | 10 | 1 | 7% |
+| linha inteira do laço interno | `a += float(X[i, j]) * float(m.W1[j, k])` | 362 | 1 | 100% |
+| ler um elemento do array e converter | `float(X[i, j])` | 152 | 2 | 84% |
+| só a leitura (cria um numpy.float64) | `X[i, j]` | 121 | 2 | 67% |
+| buscar o atributo m.W1 do dataclass | `m.W1` | 6 | 1 | 2% |
+| multiplicar e acumular floats | `a += b * c` | 29 | 1 | 8% |
 
-Estimativa: 2.080 execuções por observação × 151 ns = 314 µs por observação. Medido no conjunto grande: 338 µs.
+Estimativa: 2.080 execuções por observação × 362 ns = 752 µs por observação. Medido no conjunto grande: 772 µs.
+
+## Tabela 8. Memória
+
+| Acréscimo de RSS em MB (amostras) | grande | enorme |
+|---|---|---|
+| vetorizada, 1 processo | 0 (7) | 256 (102) |
+| paralela completa, 2 processos | 206 (69) | 1321 (238) |
+| paralela completa, 4 processos | 290 (57) | 1339 (191) |
+| pool pronto, 2 processos | 0 (6) | 256 (46) |
+| pool pronto, 4 processos | 6 (5) | 256 (42) |
+| pool pronto por pickle, 2 processos | 50 (29) | 537 (329) |
+
+## Tabela 9. Rede mais larga, 64 → 1024 → 1
+
+| Rede 64 → 1024 → 1: speedup vs vetorizada | largo_pequeno | largo_medio | largo_grande |
+|---|---|---|---|
+| vetorizada, 1 processo (ms) | 4,11 | 51,9 | 454 |
+| paralela completa, 2 processos | 1/69 | 0,167× | 0,751× |
+| paralela completa, 4 processos | 1/126 | 1/11 | 0,551× |
+| pool pronto, 2 processos | 1,19× | 1,66× | 1,53× |
+| pool pronto, 4 processos | 1,27× | 2,28× | 1,91× |
+| pool pronto por pickle, 2 processos | 0,944× | 1,32× | 1,21× |
+| vetorizada, 4 threads do BLAS | 2,14× | 1,81× | 1,48× |

@@ -1,10 +1,9 @@
-warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
 {
-  "sistema": "Linux-6.18.44-fc-v553-x86_64-with-glibc2.39",
-  "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
-  "cpus_logicas": 4,
-  "memoria_total_gb": 16.9,
-  "python": "3.12.3",
+  "sistema": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "cpu": "11th Gen Intel(R) Core(TM) i7-1185G7 @ 3.00GHz",
+  "cpus_logicas": 8,
+  "memoria_total_gb": 16.3,
+  "python": "3.12.14",
   "numpy": "2.2.6",
   "blas": {
     "name": "scipy-openblas",
@@ -28,83 +27,91 @@ warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be remo
   "aquecimentos": 1,
   "rodadas": 10,
   "dados": "X residente na RAM (np.load sem mmap); leitura do disco fora do intervalo",
-  "preparo_fundido_s": 3.720499989867676e-06,
+  "preparo_fundido_s": 3.4280019463039935e-06,
   "rtol": 1e-10,
-  "atol": 1e-10
+  "atol": 1e-10,
+  "modelo": {
+    "arquivo": "/home/dell/projects/cloudwalk_challenge_3/03-hpc/modelo/modelo.npz",
+    "arquitetura": [
+      64,
+      32,
+      1
+    ]
+  }
 }
-pequeno  escalar    completo                 p=1 t=1 lote=1000    mediana=   331.123 ms  speedup=  0.000
-pequeno  vetorizado completo                 p=1 t=1 lote=1000    mediana=     0.120 ms  speedup=  1.000
-pequeno  vetorizado completo                 p=1 t=1 lote=4096    mediana=     0.124 ms  speedup=  0.956
-pequeno  vetorizado completo                 p=1 t=1 lote=512     mediana=     0.113 ms  speedup=  1.040
-pequeno  vetorizado threads do BLAS          p=1 t=2 lote=1000    mediana=     0.120 ms  speedup=  0.988
-pequeno  vetorizado threads do BLAS          p=1 t=4 lote=1000    mediana=     0.107 ms  speedup=  1.092
-pequeno  fundido    completo                 p=1 t=1 lote=1000    mediana=     0.021 ms  speedup=  5.596
-pequeno  paralelo   completo                 p=2 t=1 lote=500     mediana=   122.516 ms  speedup=  0.001
-pequeno  paralelo   pool pronto              p=2 t=1 lote=500     mediana=     0.645 ms  speedup=  0.186
-pequeno  paralelo   pool pronto              p=2 t=1 lote=4096    mediana=     0.766 ms  speedup=  0.173
-pequeno  paralelo   pool pronto              p=2 t=1 lote=512     mediana=     0.728 ms  speedup=  0.180
-pequeno  paralelo   pool pronto, sem cópia   p=2 t=1 lote=500     mediana=     0.666 ms  speedup=  0.192
-pequeno  paralelo   pool pronto, por pickle  p=2 t=1 lote=500     mediana=     1.560 ms  speedup=  0.084
-pequeno  paralelo   completo                 p=4 t=1 lote=250     mediana=   126.023 ms  speedup=  0.001
-pequeno  paralelo   pool pronto              p=4 t=1 lote=250     mediana=     1.005 ms  speedup=  0.136
-pequeno  paralelo   pool pronto              p=4 t=1 lote=4096    mediana=     0.791 ms  speedup=  0.151
-pequeno  paralelo   pool pronto              p=4 t=1 lote=512     mediana=     0.759 ms  speedup=  0.164
-pequeno  paralelo   pool pronto, sem cópia   p=4 t=1 lote=250     mediana=     0.623 ms  speedup=  0.202
-pequeno  paralelo   pool pronto, por pickle  p=4 t=1 lote=250     mediana=     1.501 ms  speedup=  0.085
-medio    escalar    completo                 p=1 t=1 lote=10000   mediana=  3304.251 ms  speedup=  0.001
-medio    vetorizado completo                 p=1 t=1 lote=10000   mediana=     1.673 ms  speedup=  1.000
-medio    vetorizado completo                 p=1 t=1 lote=4096    mediana=     1.509 ms  speedup=  1.029
-medio    vetorizado completo                 p=1 t=1 lote=512     mediana=     1.658 ms  speedup=  1.061
-medio    vetorizado threads do BLAS          p=1 t=2 lote=10000   mediana=     1.311 ms  speedup=  1.288
-medio    vetorizado threads do BLAS          p=1 t=4 lote=10000   mediana=     1.194 ms  speedup=  1.471
-medio    fundido    completo                 p=1 t=1 lote=10000   mediana=     0.573 ms  speedup=  2.924
-medio    paralelo   completo                 p=2 t=1 lote=5000    mediana=   125.212 ms  speedup=  0.014
-medio    paralelo   pool pronto              p=2 t=1 lote=5000    mediana=     2.278 ms  speedup=  0.707
-medio    paralelo   pool pronto              p=2 t=1 lote=4096    mediana=     2.590 ms  speedup=  0.672
-medio    paralelo   pool pronto              p=2 t=1 lote=512     mediana=     3.104 ms  speedup=  0.554
-medio    paralelo   pool pronto, sem cópia   p=2 t=1 lote=5000    mediana=     1.503 ms  speedup=  1.125
-medio    paralelo   pool pronto, por pickle  p=2 t=1 lote=5000    mediana=    13.580 ms  speedup=  0.121
-medio    paralelo   completo                 p=4 t=1 lote=2500    mediana=   126.756 ms  speedup=  0.013
-medio    paralelo   pool pronto              p=4 t=1 lote=2500    mediana=     2.232 ms  speedup=  0.785
-medio    paralelo   pool pronto              p=4 t=1 lote=4096    mediana=     2.252 ms  speedup=  0.736
-medio    paralelo   pool pronto              p=4 t=1 lote=512     mediana=     2.973 ms  speedup=  0.566
-medio    paralelo   pool pronto, sem cópia   p=4 t=1 lote=2500    mediana=     1.236 ms  speedup=  1.307
-medio    paralelo   pool pronto, por pickle  p=4 t=1 lote=2500    mediana=     7.933 ms  speedup=  0.208
-grande   escalar    completo                 p=1 t=1 lote=100000  mediana= 33799.000 ms  speedup=  0.001
-grande   vetorizado completo                 p=1 t=1 lote=100000  mediana=    21.764 ms  speedup=  1.000
-grande   vetorizado completo                 p=1 t=1 lote=4096    mediana=    20.956 ms  speedup=  0.997
-grande   vetorizado completo                 p=1 t=1 lote=512     mediana=    19.425 ms  speedup=  1.128
-grande   vetorizado threads do BLAS          p=1 t=2 lote=100000  mediana=    16.121 ms  speedup=  1.386
-grande   vetorizado threads do BLAS          p=1 t=4 lote=100000  mediana=    12.597 ms  speedup=  1.702
-grande   fundido    completo                 p=1 t=1 lote=100000  mediana=     7.721 ms  speedup=  2.890
-grande   paralelo   completo                 p=2 t=1 lote=50000   mediana=   171.780 ms  speedup=  0.130
-grande   paralelo   pool pronto              p=2 t=1 lote=50000   mediana=    25.791 ms  speedup=  0.817
-grande   paralelo   pool pronto              p=2 t=1 lote=4096    mediana=    25.059 ms  speedup=  0.860
-grande   paralelo   pool pronto              p=2 t=1 lote=512     mediana=    26.935 ms  speedup=  0.778
-grande   paralelo   pool pronto, sem cópia   p=2 t=1 lote=50000   mediana=     9.620 ms  speedup=  2.105
-grande   paralelo   pool pronto, por pickle  p=2 t=1 lote=50000   mediana=   132.728 ms  speedup=  0.162
-grande   paralelo   completo                 p=4 t=1 lote=25000   mediana=   175.073 ms  speedup=  0.127
-grande   paralelo   pool pronto              p=4 t=1 lote=25000   mediana=    20.039 ms  speedup=  1.118
-grande   paralelo   pool pronto              p=4 t=1 lote=4096    mediana=    21.307 ms  speedup=  1.058
-grande   paralelo   pool pronto              p=4 t=1 lote=512     mediana=    23.050 ms  speedup=  0.918
-grande   paralelo   pool pronto, sem cópia   p=4 t=1 lote=25000   mediana=     6.719 ms  speedup=  3.174
-grande   paralelo   pool pronto, por pickle  p=4 t=1 lote=25000   mediana=    98.086 ms  speedup=  0.231
-enorme   vetorizado completo                 p=1 t=1 lote=1000000 mediana=   279.305 ms  speedup=  1.000
-enorme   vetorizado completo                 p=1 t=1 lote=4096    mediana=   204.152 ms  speedup=  1.366
-enorme   vetorizado completo                 p=1 t=1 lote=512     mediana=   203.337 ms  speedup=  1.393
-enorme   vetorizado threads do BLAS          p=1 t=2 lote=1000000 mediana=   205.422 ms  speedup=  1.360
-enorme   vetorizado threads do BLAS          p=1 t=4 lote=1000000 mediana=   156.056 ms  speedup=  1.758
-enorme   fundido    completo                 p=1 t=1 lote=1000000 mediana=    98.202 ms  speedup=  2.881
-enorme   paralelo   completo                 p=2 t=1 lote=500000  mediana=   604.566 ms  speedup=  0.459
-enorme   paralelo   pool pronto              p=2 t=1 lote=500000  mediana=   226.308 ms  speedup=  1.241
-enorme   paralelo   pool pronto              p=2 t=1 lote=4096    mediana=   199.773 ms  speedup=  1.381
-enorme   paralelo   pool pronto              p=2 t=1 lote=512     mediana=   228.735 ms  speedup=  1.234
-enorme   paralelo   pool pronto, sem cópia   p=2 t=1 lote=500000  mediana=   122.958 ms  speedup=  2.252
-enorme   paralelo   pool pronto, por pickle  p=2 t=1 lote=500000  mediana=  1477.505 ms  speedup=  0.192
-enorme   paralelo   completo                 p=4 t=1 lote=250000  mediana=   573.467 ms  speedup=  0.499
-enorme   paralelo   pool pronto              p=4 t=1 lote=250000  mediana=   179.068 ms  speedup=  1.574
-enorme   paralelo   pool pronto              p=4 t=1 lote=4096    mediana=   171.447 ms  speedup=  1.657
-enorme   paralelo   pool pronto              p=4 t=1 lote=512     mediana=   197.502 ms  speedup=  1.407
-enorme   paralelo   pool pronto, sem cópia   p=4 t=1 lote=250000  mediana=    71.658 ms  speedup=  4.037
-enorme   paralelo   pool pronto, por pickle  p=4 t=1 lote=250000  mediana=  1312.215 ms  speedup=  0.216
-Resultados em /home/user/cloudwalk_challenge_3/03-hpc/resultados/benchmark.csv e /home/user/cloudwalk_challenge_3/03-hpc/resultados/benchmark.json
+pequeno  escalar    completo                 p=1 t=1 lote=1000    mediana=   850.813 ms  speedup=  0.000
+pequeno  vetorizado completo                 p=1 t=1 lote=1000    mediana=     0.176 ms  speedup=  1.000
+pequeno  vetorizado completo                 p=1 t=1 lote=4096    mediana=     0.204 ms  speedup=  0.907
+pequeno  vetorizado completo                 p=1 t=1 lote=512     mediana=     0.220 ms  speedup=  0.813
+pequeno  vetorizado threads do BLAS          p=1 t=2 lote=1000    mediana=     0.158 ms  speedup=  1.159
+pequeno  vetorizado threads do BLAS          p=1 t=4 lote=1000    mediana=     0.220 ms  speedup=  0.809
+pequeno  fundido    completo                 p=1 t=1 lote=1000    mediana=     0.036 ms  speedup=  4.764
+pequeno  paralelo   completo                 p=2 t=1 lote=500     mediana=   223.656 ms  speedup=  0.001
+pequeno  paralelo   pool pronto              p=2 t=1 lote=500     mediana=     1.386 ms  speedup=  0.135
+pequeno  paralelo   pool pronto              p=2 t=1 lote=4096    mediana=     1.393 ms  speedup=  0.130
+pequeno  paralelo   pool pronto              p=2 t=1 lote=512     mediana=     1.367 ms  speedup=  0.141
+pequeno  paralelo   pool pronto, sem cópia   p=2 t=1 lote=500     mediana=     1.385 ms  speedup=  0.130
+pequeno  paralelo   pool pronto, por pickle  p=2 t=1 lote=500     mediana=     3.098 ms  speedup=  0.063
+pequeno  paralelo   completo                 p=4 t=1 lote=250     mediana=   264.312 ms  speedup=  0.001
+pequeno  paralelo   pool pronto              p=4 t=1 lote=250     mediana=     1.652 ms  speedup=  0.111
+pequeno  paralelo   pool pronto              p=4 t=1 lote=4096    mediana=     1.176 ms  speedup=  0.150
+pequeno  paralelo   pool pronto              p=4 t=1 lote=512     mediana=     1.426 ms  speedup=  0.118
+pequeno  paralelo   pool pronto, sem cópia   p=4 t=1 lote=250     mediana=     1.336 ms  speedup=  0.138
+pequeno  paralelo   pool pronto, por pickle  p=4 t=1 lote=250     mediana=     2.296 ms  speedup=  0.076
+medio    escalar    completo                 p=1 t=1 lote=10000   mediana=  8972.994 ms  speedup=  0.000
+medio    vetorizado completo                 p=1 t=1 lote=10000   mediana=     2.586 ms  speedup=  1.000
+medio    vetorizado completo                 p=1 t=1 lote=4096    mediana=     2.025 ms  speedup=  1.175
+medio    vetorizado completo                 p=1 t=1 lote=512     mediana=     2.105 ms  speedup=  1.185
+medio    vetorizado threads do BLAS          p=1 t=2 lote=10000   mediana=     2.457 ms  speedup=  1.249
+medio    vetorizado threads do BLAS          p=1 t=4 lote=10000   mediana=     1.980 ms  speedup=  1.124
+medio    fundido    completo                 p=1 t=1 lote=10000   mediana=     0.545 ms  speedup=  5.126
+medio    paralelo   completo                 p=2 t=1 lote=5000    mediana=   242.481 ms  speedup=  0.010
+medio    paralelo   pool pronto              p=2 t=1 lote=5000    mediana=     4.507 ms  speedup=  0.660
+medio    paralelo   pool pronto              p=2 t=1 lote=4096    mediana=     3.704 ms  speedup=  0.739
+medio    paralelo   pool pronto              p=2 t=1 lote=512     mediana=     4.520 ms  speedup=  0.539
+medio    paralelo   pool pronto, sem cópia   p=2 t=1 lote=5000    mediana=     2.722 ms  speedup=  1.012
+medio    paralelo   pool pronto, por pickle  p=2 t=1 lote=5000    mediana=    17.717 ms  speedup=  0.147
+medio    paralelo   completo                 p=4 t=1 lote=2500    mediana=   276.122 ms  speedup=  0.008
+medio    paralelo   pool pronto              p=4 t=1 lote=2500    mediana=     3.323 ms  speedup=  0.723
+medio    paralelo   pool pronto              p=4 t=1 lote=4096    mediana=     3.636 ms  speedup=  0.759
+medio    paralelo   pool pronto              p=4 t=1 lote=512     mediana=     4.918 ms  speedup=  0.591
+medio    paralelo   pool pronto, sem cópia   p=4 t=1 lote=2500    mediana=     2.991 ms  speedup=  1.038
+medio    paralelo   pool pronto, por pickle  p=4 t=1 lote=2500    mediana=    15.634 ms  speedup=  0.161
+grande   escalar    completo                 p=1 t=1 lote=100000  mediana= 77178.166 ms  speedup=  0.000
+grande   vetorizado completo                 p=1 t=1 lote=100000  mediana=    23.068 ms  speedup=  1.000
+grande   vetorizado completo                 p=1 t=1 lote=4096    mediana=    20.359 ms  speedup=  1.135
+grande   vetorizado completo                 p=1 t=1 lote=512     mediana=    21.724 ms  speedup=  1.109
+grande   vetorizado threads do BLAS          p=1 t=2 lote=100000  mediana=    17.737 ms  speedup=  1.321
+grande   vetorizado threads do BLAS          p=1 t=4 lote=100000  mediana=    17.709 ms  speedup=  1.293
+grande   fundido    completo                 p=1 t=1 lote=100000  mediana=     7.017 ms  speedup=  3.292
+grande   paralelo   completo                 p=2 t=1 lote=50000   mediana=   251.830 ms  speedup=  0.095
+grande   paralelo   pool pronto              p=2 t=1 lote=50000   mediana=    20.578 ms  speedup=  1.107
+grande   paralelo   pool pronto              p=2 t=1 lote=4096    mediana=    22.622 ms  speedup=  1.003
+grande   paralelo   pool pronto              p=2 t=1 lote=512     mediana=    31.831 ms  speedup=  0.716
+grande   paralelo   pool pronto, sem cópia   p=2 t=1 lote=50000   mediana=    13.292 ms  speedup=  1.595
+grande   paralelo   pool pronto, por pickle  p=2 t=1 lote=50000   mediana=   146.332 ms  speedup=  0.174
+grande   paralelo   completo                 p=4 t=1 lote=25000   mediana=   297.366 ms  speedup=  0.078
+grande   paralelo   pool pronto              p=4 t=1 lote=25000   mediana=    17.030 ms  speedup=  1.309
+grande   paralelo   pool pronto              p=4 t=1 lote=4096    mediana=    18.194 ms  speedup=  1.254
+grande   paralelo   pool pronto              p=4 t=1 lote=512     mediana=    23.788 ms  speedup=  0.905
+grande   paralelo   pool pronto, sem cópia   p=4 t=1 lote=25000   mediana=    10.311 ms  speedup=  2.415
+grande   paralelo   pool pronto, por pickle  p=4 t=1 lote=25000   mediana=   111.137 ms  speedup=  0.193
+enorme   vetorizado completo                 p=1 t=1 lote=1000000 mediana=   228.674 ms  speedup=  1.000
+enorme   vetorizado completo                 p=1 t=1 lote=4096    mediana=   186.890 ms  speedup=  1.220
+enorme   vetorizado completo                 p=1 t=1 lote=512     mediana=   196.677 ms  speedup=  1.143
+enorme   vetorizado threads do BLAS          p=1 t=2 lote=1000000 mediana=   182.999 ms  speedup=  1.219
+enorme   vetorizado threads do BLAS          p=1 t=4 lote=1000000 mediana=   186.875 ms  speedup=  1.208
+enorme   fundido    completo                 p=1 t=1 lote=1000000 mediana=    70.606 ms  speedup=  3.243
+enorme   paralelo   completo                 p=2 t=1 lote=500000  mediana=   651.526 ms  speedup=  0.357
+enorme   paralelo   pool pronto              p=2 t=1 lote=500000  mediana=   191.295 ms  speedup=  1.201
+enorme   paralelo   pool pronto              p=2 t=1 lote=4096    mediana=   192.542 ms  speedup=  1.203
+enorme   paralelo   pool pronto              p=2 t=1 lote=512     mediana=   246.467 ms  speedup=  0.911
+enorme   paralelo   pool pronto, sem cópia   p=2 t=1 lote=500000  mediana=   122.623 ms  speedup=  1.927
+enorme   paralelo   pool pronto, por pickle  p=2 t=1 lote=500000  mediana=  1461.310 ms  speedup=  0.155
+enorme   paralelo   completo                 p=4 t=1 lote=250000  mediana=   693.865 ms  speedup=  0.335
+enorme   paralelo   pool pronto              p=4 t=1 lote=250000  mediana=   150.703 ms  speedup=  1.476
+enorme   paralelo   pool pronto              p=4 t=1 lote=4096    mediana=   144.640 ms  speedup=  1.554
+enorme   paralelo   pool pronto              p=4 t=1 lote=512     mediana=   361.336 ms  speedup=  0.655
+enorme   paralelo   pool pronto, sem cópia   p=4 t=1 lote=250000  mediana=    82.931 ms  speedup=  2.748
+enorme   paralelo   pool pronto, por pickle  p=4 t=1 lote=250000  mediana=  1395.915 ms  speedup=  0.166
+Resultados em /home/dell/projects/cloudwalk_challenge_3/03-hpc/resultados/benchmark.csv e /home/dell/projects/cloudwalk_challenge_3/03-hpc/resultados/benchmark.json

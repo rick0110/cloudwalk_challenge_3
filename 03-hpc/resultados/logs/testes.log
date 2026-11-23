@@ -1,4 +1,3 @@
-warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
 test_cli_gera_modelo_dados_e_executa_exemplo (test_hpc.TestMaterialHPC.test_cli_gera_modelo_dados_e_executa_exemplo) ... ok
 test_cli_recusa_numero_de_features_diferente_do_modelo (test_hpc.TestMaterialHPC.test_cli_recusa_numero_de_features_diferente_do_modelo) ... ok
 test_entradas_com_dimensao_dtype_ou_valor_invalido_sao_rejeitadas (test_hpc.TestMaterialHPC.test_entradas_com_dimensao_dtype_ou_valor_invalido_sao_rejeitadas) ... ok
@@ -18,6 +17,6 @@ test_todas_as_linhas_conferem_com_as_saidas_esperadas (test_inferencia.TestInfer
 test_uma_unica_observacao_devolve_forma_1_por_1 (test_inferencia.TestInferencia.test_uma_unica_observacao_devolve_forma_1_por_1) ... ok
 
 ----------------------------------------------------------------------
-Ran 17 tests in 3.916s
+Ran 17 tests in 7.393s
 
 OK

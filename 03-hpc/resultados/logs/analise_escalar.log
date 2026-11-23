@@ -1,10 +1,9 @@
-warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
-Python 3.12.3, NumPy 2.2.6
+Python 3.12.14, NumPy 2.2.6
     ns  vezes  % da linha  parte
- 150.9      1        100%  linha inteira do laço interno
-  64.4      2         85%  ler um elemento do array e converter
-  53.7      2         71%    só a leitura (cria um numpy.float64)
-   3.1      1          2%  buscar o atributo m.W1 do dataclass
-  10.2      1          7%  multiplicar e acumular floats
-Estimativa por observação: 2.080 x 151 ns = 0.31 ms
-Salvo em /home/user/cloudwalk_challenge_3/03-hpc/resultados/custo_escalar.json
+ 361.7      1        100%  linha inteira do laço interno
+ 152.4      2         84%  ler um elemento do array e converter
+ 120.9      2         67%    só a leitura (cria um numpy.float64)
+   5.7      1          2%  buscar o atributo m.W1 do dataclass
+  29.3      1          8%  multiplicar e acumular floats
+Estimativa por observação: 2.080 x 362 ns = 0.75 ms
+Salvo em /home/dell/projects/cloudwalk_challenge_3/03-hpc/resultados/custo_escalar.json

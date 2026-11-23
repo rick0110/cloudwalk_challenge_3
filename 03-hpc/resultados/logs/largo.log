@@ -1,0 +1,96 @@
+{
+  "sistema": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "cpu": "11th Gen Intel(R) Core(TM) i7-1185G7 @ 3.00GHz",
+  "cpus_logicas": 8,
+  "memoria_total_gb": 16.3,
+  "python": "3.12.14",
+  "numpy": "2.2.6",
+  "blas": {
+    "name": "scipy-openblas",
+    "version": "0.3.29",
+    "openblas configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=64"
+  },
+  "threads_solicitadas": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "threads_do_so_observadas": {
+    "pai, limite de 1": 1,
+    "pai, limite de 2": 2,
+    "pai, limite de 4": 4,
+    "filho spawn": 1
+  },
+  "metodo_de_inicio": "spawn",
+  "relogio": "time.perf_counter",
+  "aquecimentos": 1,
+  "rodadas": 10,
+  "dados": "X residente na RAM (np.load sem mmap); leitura do disco fora do intervalo",
+  "preparo_fundido_s": 1.321350282523781e-05,
+  "rtol": 1e-10,
+  "atol": 1e-10,
+  "modelo": {
+    "arquivo": "03-hpc/modelo_largo/modelo.npz",
+    "arquitetura": [
+      64,
+      1024,
+      1
+    ]
+  }
+}
+largo_pequeno vetorizado completo                 p=1 t=1 lote=1000    mediana=     4.114 ms  speedup=  1.000
+largo_pequeno vetorizado completo                 p=1 t=1 lote=4096    mediana=     4.090 ms  speedup=  0.982
+largo_pequeno vetorizado completo                 p=1 t=1 lote=512     mediana=     3.717 ms  speedup=  1.105
+largo_pequeno vetorizado threads do BLAS          p=1 t=2 lote=1000    mediana=     2.532 ms  speedup=  1.648
+largo_pequeno vetorizado threads do BLAS          p=1 t=4 lote=1000    mediana=     2.037 ms  speedup=  2.139
+largo_pequeno fundido    completo                 p=1 t=1 lote=1000    mediana=     0.028 ms  speedup=148.812
+largo_pequeno paralelo   completo                 p=2 t=1 lote=500     mediana=   286.354 ms  speedup=  0.014
+largo_pequeno paralelo   pool pronto              p=2 t=1 lote=500     mediana=     3.668 ms  speedup=  1.188
+largo_pequeno paralelo   pool pronto              p=2 t=1 lote=4096    mediana=     6.150 ms  speedup=  0.737
+largo_pequeno paralelo   pool pronto              p=2 t=1 lote=512     mediana=     3.574 ms  speedup=  1.188
+largo_pequeno paralelo   pool pronto, sem cópia   p=2 t=1 lote=500     mediana=     3.378 ms  speedup=  1.181
+largo_pequeno paralelo   pool pronto, por pickle  p=2 t=1 lote=500     mediana=     4.549 ms  speedup=  0.944
+largo_pequeno paralelo   completo                 p=4 t=1 lote=250     mediana=   528.939 ms  speedup=  0.008
+largo_pequeno paralelo   pool pronto              p=4 t=1 lote=250     mediana=     3.292 ms  speedup=  1.265
+largo_pequeno paralelo   pool pronto              p=4 t=1 lote=4096    mediana=     6.240 ms  speedup=  0.661
+largo_pequeno paralelo   pool pronto              p=4 t=1 lote=512     mediana=     4.230 ms  speedup=  0.986
+largo_pequeno paralelo   pool pronto, sem cópia   p=4 t=1 lote=250     mediana=     3.337 ms  speedup=  1.359
+largo_pequeno paralelo   pool pronto, por pickle  p=4 t=1 lote=250     mediana=     3.508 ms  speedup=  1.181
+largo_medio vetorizado completo                 p=1 t=1 lote=10000   mediana=    51.859 ms  speedup=  1.000
+largo_medio vetorizado completo                 p=1 t=1 lote=4096    mediana=    53.151 ms  speedup=  1.010
+largo_medio vetorizado completo                 p=1 t=1 lote=512     mediana=    43.497 ms  speedup=  1.217
+largo_medio vetorizado threads do BLAS          p=1 t=2 lote=10000   mediana=    34.930 ms  speedup=  1.548
+largo_medio vetorizado threads do BLAS          p=1 t=4 lote=10000   mediana=    29.587 ms  speedup=  1.808
+largo_medio fundido    completo                 p=1 t=1 lote=10000   mediana=     0.368 ms  speedup=136.987
+largo_medio paralelo   completo                 p=2 t=1 lote=5000    mediana=   315.245 ms  speedup=  0.167
+largo_medio paralelo   pool pronto              p=2 t=1 lote=5000    mediana=    31.470 ms  speedup=  1.657
+largo_medio paralelo   pool pronto              p=2 t=1 lote=4096    mediana=    38.616 ms  speedup=  1.412
+largo_medio paralelo   pool pronto              p=2 t=1 lote=512     mediana=    27.173 ms  speedup=  1.937
+largo_medio paralelo   pool pronto, sem cópia   p=2 t=1 lote=5000    mediana=    32.112 ms  speedup=  1.689
+largo_medio paralelo   pool pronto, por pickle  p=2 t=1 lote=5000    mediana=    39.135 ms  speedup=  1.317
+largo_medio paralelo   completo                 p=4 t=1 lote=2500    mediana=   576.639 ms  speedup=  0.093
+largo_medio paralelo   pool pronto              p=4 t=1 lote=2500    mediana=    23.312 ms  speedup=  2.281
+largo_medio paralelo   pool pronto              p=4 t=1 lote=4096    mediana=    34.820 ms  speedup=  1.646
+largo_medio paralelo   pool pronto              p=4 t=1 lote=512     mediana=    20.117 ms  speedup=  2.572
+largo_medio paralelo   pool pronto, sem cópia   p=4 t=1 lote=2500    mediana=    23.003 ms  speedup=  2.312
+largo_medio paralelo   pool pronto, por pickle  p=4 t=1 lote=2500    mediana=    28.660 ms  speedup=  1.812
+largo_grande vetorizado completo                 p=1 t=1 lote=100000  mediana=   454.295 ms  speedup=  1.000
+largo_grande vetorizado completo                 p=1 t=1 lote=4096    mediana=   480.528 ms  speedup=  0.947
+largo_grande vetorizado completo                 p=1 t=1 lote=512     mediana=   364.858 ms  speedup=  1.271
+largo_grande vetorizado threads do BLAS          p=1 t=2 lote=100000  mediana=   317.662 ms  speedup=  1.440
+largo_grande vetorizado threads do BLAS          p=1 t=4 lote=100000  mediana=   315.371 ms  speedup=  1.482
+largo_grande fundido    completo                 p=1 t=1 lote=100000  mediana=     6.945 ms  speedup= 68.934
+largo_grande paralelo   completo                 p=2 t=1 lote=50000   mediana=   622.221 ms  speedup=  0.751
+largo_grande paralelo   pool pronto              p=2 t=1 lote=50000   mediana=   299.516 ms  speedup=  1.530
+largo_grande paralelo   pool pronto              p=2 t=1 lote=4096    mediana=   284.030 ms  speedup=  1.613
+largo_grande paralelo   pool pronto              p=2 t=1 lote=512     mediana=   269.498 ms  speedup=  1.763
+largo_grande paralelo   pool pronto, sem cópia   p=2 t=1 lote=50000   mediana=   304.465 ms  speedup=  1.551
+largo_grande paralelo   pool pronto, por pickle  p=2 t=1 lote=50000   mediana=   389.991 ms  speedup=  1.207
+largo_grande paralelo   completo                 p=4 t=1 lote=25000   mediana=   827.101 ms  speedup=  0.551
+largo_grande paralelo   pool pronto              p=4 t=1 lote=25000   mediana=   248.184 ms  speedup=  1.908
+largo_grande paralelo   pool pronto              p=4 t=1 lote=4096    mediana=   245.271 ms  speedup=  1.897
+largo_grande paralelo   pool pronto              p=4 t=1 lote=512     mediana=   210.145 ms  speedup=  2.184
+largo_grande paralelo   pool pronto, sem cópia   p=4 t=1 lote=25000   mediana=   238.829 ms  speedup=  2.011
+largo_grande paralelo   pool pronto, por pickle  p=4 t=1 lote=25000   mediana=   349.812 ms  speedup=  1.310
+Resultados em 03-hpc/resultados/largo.csv e 03-hpc/resultados/largo.json

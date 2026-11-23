@@ -1,5 +1,5 @@
 {
-  "python": "3.12.3",
+  "python": "3.12.14",
   "numpy": "2.2.6",
   "metodo": "timeit: menor de 5 medições de 1000000 execuções, descontado o laço vazio (pass)",
   "codigo": {
@@ -25,10 +25,10 @@
     ]
   },
   "nanossegundos": {
-    "linha inteira do laço interno": 150.8557130000554,
-    "ler um elemento do array e converter": 64.36401800010572,
-    "  só a leitura (cria um numpy.float64)": 53.678020000006654,
-    "buscar o atributo m.W1 do dataclass": 3.091892000156804,
-    "multiplicar e acumular floats": 10.20107000022108
+    "linha inteira do laço interno": 361.72452499886276,
+    "ler um elemento do array e converter": 152.35522199509433,
+    "  só a leitura (cria um numpy.float64)": 120.90173199976563,
+    "buscar o atributo m.W1 do dataclass": 5.6772850002744235,
+    "multiplicar e acumular floats": 29.293014005816076
   }
 }
