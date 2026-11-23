@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 # Executa o projeto de ponta a ponta, a partir da raiz:
-#   bash reproduzir.sh          tudo: testes, análise, benchmark e resumo (~15 minutos)
-#   bash reproduzir.sh rapido   demonstração: testes e benchmark com 1 mil e 10 mil linhas (~30 s)
+#   bash reproduzir.sh          tudo: testes, análise, benchmark e resumo (~30 minutos)
+#   bash reproduzir.sh rapido   demonstração: testes e benchmark com 1 mil e 10 mil linhas (~1 minuto)
 # A saída de cada passo da execução completa também fica em 03-hpc/resultados/logs/.
 set -euo pipefail
 
 uv sync --frozen
 
-gerar() {  # gerar <linhas> <pasta>: conjunto sintético com a semente 2027
-    uv run --frozen python 03-hpc/gerar_entradas.py --rows "$1" --seed 2027 --output "03-hpc/dados/$2"
+gerar() {  # gerar <linhas> <pasta> [modelo]: conjunto sintético com a semente 2027
+    uv run --frozen python 03-hpc/gerar_entradas.py --rows "$1" --seed 2027 --output "03-hpc/dados/$2" \
+        --model "${3:-03-hpc/modelo/modelo.npz}"
 }
 
 if [ "${1:-}" = "rapido" ]; then
@@ -38,5 +39,16 @@ uv run --frozen python 03-hpc/analise_escalar.py 2>&1 | tee "$LOGS/analise_escal
 # 4. Benchmark: todas as estratégias, em rodadas pareadas.
 uv run --frozen python 03-hpc/benchmark.py 2>&1 | tee "$LOGS/benchmark.log"
 
-# 5. Tabelas e gráfico do relatório.
+# 5. Experimento adicional: rede mais larga (64 → 1024 → 1), com 32 vezes mais conta por linha
+#    e a mesma quantidade de dados por linha. A referência escalar fica de fora (lenta demais).
+LARGO=03-hpc/modelo_largo/modelo.npz
+uv run --frozen python 03-hpc/gerar_modelo.py --hidden 1024 --output "$LARGO"
+gerar 1000 largo_pequeno "$LARGO"
+gerar 10000 largo_medio "$LARGO"
+gerar 100000 largo_grande "$LARGO"
+uv run --frozen python 03-hpc/benchmark.py --modelo "$LARGO" \
+    --conjuntos largo_pequeno largo_medio largo_grande --estrategias vetorizado fundido paralelo \
+    --saida 03-hpc/resultados/largo 2>&1 | tee "$LOGS/largo.log"
+
+# 6. Tabelas e gráfico do relatório.
 uv run --frozen python 03-hpc/resumo.py
