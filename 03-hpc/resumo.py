@@ -3,7 +3,8 @@
 Uso (a partir da raiz do projeto, depois de benchmark.py e analise_escalar.py):
     uv run --frozen python 03-hpc/resumo.py
 
-Lê 03-hpc/resultados/benchmark.csv, benchmark.json e custo_escalar.json.
+Lê 03-hpc/resultados/benchmark.csv, benchmark.json, largo.csv (rede 64 → 1024 → 1) e
+custo_escalar.json.
 Escreve 03-hpc/resultados/resumo.md e 03-hpc/resultados/speedup_por_linhas.png.
 Nenhum número do relatório é digitado à mão: todos saem daqui.
 """
@@ -50,8 +51,8 @@ CONFIGURACOES = {
 # --------------------------------------------------------------------------- leitura
 
 
-def ler_resultados():
-    with open(PASTA / "benchmark.csv", encoding="utf-8") as arquivo:
+def ler_resultados(nome="benchmark"):
+    with open(PASTA / f"{nome}.csv", encoding="utf-8") as arquivo:
         linhas = list(csv.DictReader(arquivo))
     for linha in linhas:
         for chave in ("linhas", "processos", "threads_solicitadas", "lote", "tarefas"):
@@ -60,6 +61,8 @@ def ler_resultados():
             linha[chave] = float(linha[chave])
         linha["speedup_vs_escalar"] = float(linha["speedup_vs_escalar"] or "nan")
         linha["tempos"] = [float(t) for t in linha["tempos_s"].split(";")]
+        linha["rss_acrescimo_mb"] = (float(linha["rss_pico_mb"]) - float(linha["rss_base_mb"])
+                                     if linha["rss_pico_mb"] else None)
     return linhas
 
 
@@ -265,6 +268,33 @@ def grafico(r, conjuntos, caminho):
     figura.savefig(caminho, facecolor=figura.get_facecolor())
 
 
+def tabela_rede_larga(r, conjuntos):
+    """Mesmas estratégias, rede 64 → 1024 → 1: 32 vezes mais conta por linha, mesmos dados."""
+    rotulos = ("paralela completa, 2 processos", "paralela completa, 4 processos",
+               "pool pronto, 2 processos", "pool pronto, 4 processos",
+               "pool pronto por pickle, 2 processos", "vetorizada, 4 threads do BLAS")
+    linhas = [["vetorizada, 1 processo (ms)"] + [ms(buscar(r, c, **VETORIZADA)["mediana_s"])
+                                                 for c in conjuntos]]
+    for rotulo in rotulos:
+        linhas.append([rotulo] + [vezes(buscar(r, c, **CONFIGURACOES[rotulo])["speedup_vs_vetorizado"])
+                                  for c in conjuntos])
+    return tabela(["Rede 64 → 1024 → 1: speedup vs vetorizada"] + list(conjuntos), linhas)
+
+
+def tabela_memoria(r, conjuntos):
+    """Acréscimo de RSS (pai + filhos) durante uma chamada, sobre a base antes dela."""
+    rotulos = ("paralela completa, 2 processos", "paralela completa, 4 processos",
+               "pool pronto, 2 processos", "pool pronto, 4 processos",
+               "pool pronto por pickle, 2 processos")
+    linhas = []
+    for rotulo, config in [("vetorizada, 1 processo", VETORIZADA)] + [
+            (rotulo, CONFIGURACOES[rotulo]) for rotulo in rotulos]:
+        medidas = [buscar(r, c, **config) for c in conjuntos]
+        linhas.append([rotulo] + [f"{m['rss_acrescimo_mb']:.0f} ({m['rss_amostras']})"
+                                  for m in medidas])
+    return tabela(["Acréscimo de RSS em MB (amostras)"] + list(conjuntos), linhas)
+
+
 # --------------------------------------------------------------------------- principal
 
 
@@ -283,7 +313,12 @@ def main():
         ("Tabela 6. Amortização do preparo da fusão",
          amortizacao_da_fusao(r, conjuntos, ambiente["preparo_fundido_s"])),
         ("Tabela 7. Custo da referência escalar", tabela_escalar(r)),
+        ("Tabela 8. Memória", tabela_memoria(r, grandes)),
     ]
+    if (PASTA / "largo.csv").exists():
+        largo = ler_resultados("largo")
+        secoes.append(("Tabela 9. Rede mais larga, 64 → 1024 → 1", tabela_rede_larga(
+            largo, list(dict.fromkeys(linha["conjunto"] for linha in largo)))))
     texto = "# Resumo dos resultados\n\nGerado por `03-hpc/resumo.py`.\n\n" + "\n\n".join(
         f"## {titulo}\n\n{conteudo}" for titulo, conteudo in secoes) + "\n"
     (PASTA / "resumo.md").write_text(texto, encoding="utf-8")
