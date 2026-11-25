@@ -32,8 +32,8 @@ Richard Elias Soares Viana \quad$\cdot$\quad Desafio 03 (HPC), CloudWalk \x{} IM
 processos não compensou: a execução paralela completa com 2 processos \texttt{spawn} foi mais
 lenta que a vetorizada em um processo em todos os tamanhos, de 1 mil a 1 milhão de linhas.
 O que pesa é criar os processos (cerca de 220~ms) e mover os dados, porque cada linha tem
-pouca conta. Com mais neurônios na camada oculta, a mesma implementação com o pool
-reutilizado passa a ganhar em todos os tamanhos (até 2,8\x).
+pouca conta. Com mais neurônios na camada oculta, o pool reutilizado passa a ganhar (até
+2,5\x), e com 32.768 neurônios até a execução completa empata com a vetorizada.
 
 \section{Ambiente e protocolo}
 
@@ -121,9 +121,9 @@ larga (escalas logarítmicas).}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.80\linewidth]{speedup_por_camada_oculta.png}
-\caption{Speedup em relação à vetorizada com 100 mil linhas, variando a camada oculta de 8 a
-2048 neurônios (linha cheia: 2 processos ou threads; tracejada: 4).}
+\includegraphics[width=0.74\linewidth]{speedup_por_camada_oculta.png}
+\caption{Speedup em relação à vetorizada com 10 mil linhas, variando a camada oculta de 8 a
+32.768 neurônios (linha cheia: 2 processos ou threads; tracejada: 4).}
 \end{figure}
 
 \section{Extensões}
@@ -132,10 +132,11 @@ larga (escalas logarítmicas).}
 \item \textbf{Redes maiores.} Aumentar a camada oculta aumenta a conta por linha sem mudar os
   512 bytes de entrada. Com 1024 neurônios, o pool reutilizado ganha em todos os tamanhos
   (até 2,28\x{} com 4 processos), até enviando os dados por pickle. Variando a camada de 8 a
-  2048 neurônios com 100 mil linhas (Figura~2), a paralela completa sobe de 1/16 para
-  0,82\x, sem passar de 1, e o pool pronto satura perto de 1,8\x: com o lote padrão, cada
-  processo aloca um temporário $H$ de até 1,6~GB. Com lotes de 512 linhas, o mesmo pool chega
-  a 2,80\x. O que decide se os processos compensam é a quantidade de conta por byte movido.
+  32.768 neurônios com 10 mil linhas (Figura~2), a paralela completa sobe de 1/226 até empatar
+  com a vetorizada (1,02\x), quando cada chamada passa a levar 1,5~s. O pool pronto se
+  estabiliza perto de 2\x{} com 4 processos; lotes de 512 linhas levam a 2,5\x{} nos tamanhos
+  médios, mas não na maior rede, e o teto restante deve vir dos 4 núcleos físicos dividindo
+  a banda de memória. O que decide se os processos compensam é a conta por byte movido.
 \item \textbf{Pool pronto, 4 processos e lotes.} No modelo fornecido, o pool pronto chega a
   1,20\x{} com 2 processos e 1,48\x{} com 4, com 1 milhão de linhas; com X já na memória
   compartilhada, 1,93 e 2,75\x. A vetorizada em lotes de 4.096 linhas também ganha 1,22\x,

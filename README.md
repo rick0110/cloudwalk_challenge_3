@@ -222,26 +222,28 @@ todos os tamanhos, até enviando os dados por pickle, e a paralela completa sobe
 com 100 mil linhas. O que decide se o paralelismo com processos compensa é a quantidade de
 conta por byte movido.
 
-Para ver a tendência inteira, a camada oculta foi variada de 8 a 2048 neurônios, sempre com
-100 mil linhas e 5 rodadas:
+Para ver a tendência inteira, a camada oculta foi variada de 8 a 32.768 neurônios, com 10
+mil linhas e 5 rodadas. Com 100 mil linhas, o temporário H da maior rede teria 26 GB.
 
 ![Speedup em relação à vetorizada, por tamanho da camada oculta](03-hpc/resultados/speedup_por_camada_oculta.png)
 
-| Camada oculta | 8 | 32 | 128 | 512 | 1024 | 2048 |
-|---|---:|---:|---:|---:|---:|---:|
-| Vetorizada, 1 processo (ms) | 10,6 | 21,8 | 67,7 | 235 | 495 | 978 |
-| Paralela completa, 2 processos | 1/16 | 0,12× | 0,23× | 0,48× | 0,50× | 0,82× |
-| Paralela completa, 4 processos | 1/19 | 1/11 | 0,13× | 0,39× | 0,55× | 0,83× |
-| Pool pronto, 2 processos | 0,86× | 1,26× | 1,54× | 1,56× | 1,34× | 1,42× |
-| Pool pronto, 4 processos | 1,00× | 1,35× | 2,15× | 1,90× | 1,87× | 1,76× |
-| Pool pronto, 4 processos, lotes de 512 linhas | 0,49× | — | 2,54× | 2,80× | — | 2,11× |
-| Vetorizada, 4 threads do BLAS | 1,02× | 1,41× | 1,54× | 1,60× | 1,53× | 1,62× |
+| Camada oculta | 8 | 32 | 128 | 512 | 2048 | 8192 | 32768 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Vetorizada, 1 processo (ms) | 0,626 | 1,50 | 5,99 | 24,6 | 91,2 | 368 | 1.506 |
+| Paralela completa, 2 processos | 1/226 | 1/90 | 1/46 | 1/11 | 0,32× | 0,63× | 1,02× |
+| Paralela completa, 4 processos | 1/284 | 1/115 | 1/85 | 1/20 | 0,18× | 0,52× | 1,03× |
+| Pool pronto, 2 processos | 0,37× | 0,66× | 1,20× | 1,80× | 1,69× | 1,49× | 1,59× |
+| Pool pronto, 4 processos | 0,36× | 0,69× | 1,24× | 1,99× | 2,14× | 1,99× | 2,00× |
+| Pool pronto, 4 processos, lotes de 512 linhas | 0,23× | 0,53× | 1,58× | 2,54× | 2,49× | 2,03× | 1,81× |
+| Vetorizada, 4 threads do BLAS | 1,04× | 1,37× | 1,67× | 1,63× | 1,72× | 1,43× | 1,40× |
 
-A paralela completa melhora continuamente, de 1/16 a 0,82×, mas não chega a 1× até 2048
-neurônios. O pool pronto sobe até 128 neurônios e depois se estabiliza perto de 1,8×, longe
-do ideal de 4×. A causa é a memória: com o lote padrão, cada processo calcula um temporário
-H de até 1,6 GB, que não cabe no cache. Com lotes de 512 linhas, o mesmo pool chega a 2,80×
-com 512 neurônios.
+A paralela completa melhora continuamente, de 1/226 com 8 neurônios até empatar com a
+vetorizada com 32.768 (1,02×): só aí a conta de cada chamada (1,5 s) dilui o custo de criar
+os processos. O pool pronto passa de 1× a partir de 128 neurônios e se estabiliza perto de
+2× com 4 processos, metade do ideal. Lotes de 512 linhas levam a 2,5× nos tamanhos médios,
+porque o temporário H cabe melhor no cache, mas não ajudam na maior rede. A hipótese para o
+teto restante é o próprio notebook: 4 núcleos físicos dividindo a banda de memória e
+rodando a uma frequência menor quando todos estão ocupados.
 
 A estratégia recomendada para o modelo fornecido é a vetorizada em um processo, em lotes de
 alguns milhares de linhas para entradas grandes. Para mais vazão, as threads do BLAS.
