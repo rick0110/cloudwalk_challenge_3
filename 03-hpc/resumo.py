@@ -5,7 +5,8 @@ Uso (a partir da raiz do projeto, depois de benchmark.py e analise_escalar.py):
 
 Lê 03-hpc/resultados/benchmark.csv, benchmark.json, largo.csv (rede 64 → 1024 → 1) e
 custo_escalar.json.
-Escreve 03-hpc/resultados/resumo.md e 03-hpc/resultados/speedup_por_linhas.png.
+Escreve 03-hpc/resultados/resumo.md e os gráficos speedup_por_linhas.png e
+speedup_por_camada_oculta.png.
 Nenhum número do relatório é digitado à mão: todos saem daqui.
 """
 
@@ -298,6 +299,69 @@ def tabela_memoria(r, conjuntos):
     return tabela(["Acréscimo de RSS em MB (amostras)"] + list(conjuntos), linhas)
 
 
+def ler_varredura():
+    """Resultados da varredura da camada oculta: {tamanho da camada: linhas do CSV}."""
+    varredura = {}
+    for arquivo in sorted((PASTA / "varredura").glob("oculta_*.csv")):
+        varredura[int(arquivo.stem.split("_")[1])] = ler_resultados(f"varredura/{arquivo.stem}")
+    return dict(sorted(varredura.items()))
+
+
+VARREDURA = {  # rótulo: (filtros de `buscar`, cor, traço)
+    "paralela completa, 2 processos": (CONFIGURACOES["paralela completa, 2 processos"], "#2a78d6", "-"),
+    "paralela completa, 4 processos": (CONFIGURACOES["paralela completa, 4 processos"], "#2a78d6", "--"),
+    "pool pronto, 2 processos": (CONFIGURACOES["pool pronto, 2 processos"], "#eb6834", "-"),
+    "pool pronto, 4 processos": (CONFIGURACOES["pool pronto, 4 processos"], "#eb6834", "--"),
+    "vetorizada, 2 threads do BLAS": (CONFIGURACOES["vetorizada, 2 threads do BLAS"], "#eda100", "-"),
+    "vetorizada, 4 threads do BLAS": (CONFIGURACOES["vetorizada, 4 threads do BLAS"], "#eda100", "--"),
+}
+
+
+def tabela_varredura(varredura):
+    ocultas = list(varredura)
+    linhas = [["vetorizada, 1 processo (ms)"] + [
+        ms(buscar(varredura[h], f"oculta_{h}", **VETORIZADA)["mediana_s"]) for h in ocultas]]
+    for rotulo, (config, _, _) in VARREDURA.items():
+        linhas.append([rotulo] + [vezes(buscar(varredura[h], f"oculta_{h}", **config)["speedup_vs_vetorizado"])
+                                  for h in ocultas])
+    return tabela(["100 mil linhas; camada oculta →"] + [str(h) for h in ocultas], linhas)
+
+
+def grafico_varredura(varredura, caminho):
+    """Speedup contra a vetorizada, com 100 mil linhas, em função da camada oculta."""
+    ocultas = list(varredura)
+    figura, eixo = plt.subplots(figsize=(7.5, 3.8), dpi=200)
+    for fundo in (figura, eixo):
+        fundo.set_facecolor("#fcfcfb")
+    eixo.axhline(1, color="#52514e", linewidth=1, linestyle="--")
+    for ideal in (2, 4):
+        eixo.axhline(ideal, color="#c3c2b7", linewidth=1, linestyle=":")
+        eixo.annotate(f"ideal com {ideal}", (ocultas[0], ideal), xytext=(0, 3),
+                      textcoords="offset points", fontsize=7, color="#52514e")
+    for rotulo, (config, cor, traco) in VARREDURA.items():
+        s = [buscar(varredura[h], f"oculta_{h}", **config)["speedup_vs_vetorizado"] for h in ocultas]
+        eixo.plot(ocultas, s, color=cor, linestyle=traco, linewidth=2, marker="o", markersize=5,
+                  label=rotulo)
+    eixo.set_xscale("log", base=2)
+    eixo.set_yscale("log")
+    eixo.set_xticks(ocultas, [str(h) for h in ocultas])
+    eixo.set_yticks([1 / 16, 1 / 8, 1 / 4, 1 / 2, 1, 2, 4], ["1/16", "1/8", "1/4", "1/2", "1×", "2×", "4×"])
+    eixo.minorticks_off()
+    eixo.set_xlabel("neurônios na camada oculta (64 → oculta → 1)", color="#52514e", fontsize=8)
+    eixo.set_ylabel("speedup vs vetorizada em 1 processo", color="#52514e", fontsize=8)
+    eixo.set_title("Com 100 mil linhas: mais conta por linha ajuda o paralelismo, até saturar perto de 2×",
+                   fontsize=9, color="#0b0b0b", loc="left")
+    eixo.grid(True, color="#e4e3df", linewidth=0.8)
+    for lado in ("top", "right"):
+        eixo.spines[lado].set_visible(False)
+    for lado in ("left", "bottom"):
+        eixo.spines[lado].set_color("#c3c2b7")
+    eixo.tick_params(colors="#52514e", labelsize=7)
+    eixo.legend(fontsize=7, frameon=False, loc="lower right", ncol=2, labelcolor="#0b0b0b")
+    figura.tight_layout()
+    figura.savefig(caminho, facecolor=figura.get_facecolor())
+
+
 # --------------------------------------------------------------------------- principal
 
 
@@ -322,6 +386,10 @@ def main():
         largo = ler_resultados("largo")
         secoes.append(("Tabela 9. Rede mais larga, 64 → 1024 → 1", tabela_rede_larga(
             largo, list(dict.fromkeys(linha["conjunto"] for linha in largo)))))
+    varredura = ler_varredura()
+    if varredura:
+        secoes.append(("Tabela 10. Varredura da camada oculta, 100 mil linhas",
+                       tabela_varredura(varredura)))
     texto = "# Resumo dos resultados\n\nGerado por `03-hpc/resumo.py`.\n\n" + "\n\n".join(
         f"## {titulo}\n\n{conteudo}" for titulo, conteudo in secoes) + "\n"
     (PASTA / "resumo.md").write_text(texto, encoding="utf-8")
@@ -330,6 +398,8 @@ def main():
         paineis.append(("Rede larga, 64 → 1024 → 1", largo,
                         list(dict.fromkeys(linha["conjunto"] for linha in largo))))
     grafico(paineis, PASTA / "speedup_por_linhas.png")
+    if varredura:
+        grafico_varredura(varredura, PASTA / "speedup_por_camada_oculta.png")
     print(texto)
 
 
