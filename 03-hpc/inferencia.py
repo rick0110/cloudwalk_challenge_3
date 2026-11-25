@@ -1,7 +1,7 @@
 """Inferência em CPU do MLP linear 64 → 32 → 1.
 
 Todas as estratégias usam o mesmo núcleo de cálculo (`calcular_camadas`) e a mesma
-divisão das linhas em lotes (`fatias`). A versão paralela é a vetorizada com o laço
+divisão das linhas em lotes `fatias`. A versão paralela é a vetorizada com o laço
 de lotes distribuído entre processos.
 """
 

@@ -64,7 +64,7 @@ na comparação principal, são produtos de matrizes do BLAS, e os biases são s
 \emph{in-place}, o que evita alocar uma segunda matriz $n\times32$ (19,7 $\to$ 14,8~ms com 100
 mil linhas). A \textbf{vetorizada} aplica o núcleo em um processo; a \textbf{paralela}
 distribui os lotes entre processos \texttt{spawn}. Entradas e
-saídas ficam em memória compartilhada (\texttt{RawArray}): o pai copia X uma vez, e cada filho
+saídas ficam em memória compartilhada: o pai copia X uma vez, e cada filho
 lê a sua fatia e grava em \texttt{Y[início:fim]}, o que preserva a ordem. Os pesos (17~KB) vão
 uma vez a cada filho, na criação. As tarefas são só o par \texttt{(início, fim)}; o lote
 padrão é $\lceil n/\text{processos}\rceil$, uma tarefa por processo, e com

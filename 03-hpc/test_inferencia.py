@@ -9,9 +9,7 @@ import unittest
 
 import numpy as np
 
-from inferencia import (
-    InferenciaParalela, fatias, prever_fundido, prever_paralelo, prever_vetorizado,
-)
+from inferencia import InferenciaParalela, fatias, prever_fundido, prever_paralelo, prever_vetorizado
 from gerar_modelo import construir_modelo
 from mlp import ATOL, BASE, RTOL, carregar_modelo, prever_oraculo
 
