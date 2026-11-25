@@ -78,9 +78,9 @@ uv sync --frozen
 bash reproduzir.sh
 ```
 
-A execução completa leva cerca de 30 minutos e precisa de uns 4 GB de RAM livres. Ela gera
+A execução completa leva cerca de 35 minutos e precisa de uns 4 GB de RAM livres. Ela gera
 os conjuntos de dados (semente 2027), roda os testes, a análise da referência escalar, o
-benchmark, o experimento com a rede larga e o resumo, e grava tudo em `03-hpc/resultados/`. O benchmark fixa uma thread
+benchmark, os experimentos com redes maiores e o resumo, e grava tudo em `03-hpc/resultados/`. O benchmark fixa uma thread
 nativa por processo (`OPENBLAS_NUM_THREADS` e afins) antes de importar o NumPy, então
 nenhuma variável de ambiente precisa ser definida.
 
@@ -222,6 +222,27 @@ todos os tamanhos, até enviando os dados por pickle, e a paralela completa sobe
 com 100 mil linhas. O que decide se o paralelismo com processos compensa é a quantidade de
 conta por byte movido.
 
+Para ver a tendência inteira, a camada oculta foi variada de 8 a 2048 neurônios, sempre com
+100 mil linhas e 5 rodadas:
+
+![Speedup em relação à vetorizada, por tamanho da camada oculta](03-hpc/resultados/speedup_por_camada_oculta.png)
+
+| Camada oculta | 8 | 32 | 128 | 512 | 1024 | 2048 |
+|---|---:|---:|---:|---:|---:|---:|
+| Vetorizada, 1 processo (ms) | 10,6 | 21,8 | 67,7 | 235 | 495 | 978 |
+| Paralela completa, 2 processos | 1/16 | 0,12× | 0,23× | 0,48× | 0,50× | 0,82× |
+| Paralela completa, 4 processos | 1/19 | 1/11 | 0,13× | 0,39× | 0,55× | 0,83× |
+| Pool pronto, 2 processos | 0,86× | 1,26× | 1,54× | 1,56× | 1,34× | 1,42× |
+| Pool pronto, 4 processos | 1,00× | 1,35× | 2,15× | 1,90× | 1,87× | 1,76× |
+| Pool pronto, 4 processos, lotes de 512 linhas | 0,49× | — | 2,54× | 2,80× | — | 2,11× |
+| Vetorizada, 4 threads do BLAS | 1,02× | 1,41× | 1,54× | 1,60× | 1,53× | 1,62× |
+
+A paralela completa melhora continuamente, de 1/16 a 0,82×, mas não chega a 1× até 2048
+neurônios. O pool pronto sobe até 128 neurônios e depois se estabiliza perto de 1,8×, longe
+do ideal de 4×. A causa é a memória: com o lote padrão, cada processo calcula um temporário
+H de até 1,6 GB, que não cabe no cache. Com lotes de 512 linhas, o mesmo pool chega a 2,80×
+com 512 neurônios.
+
 A estratégia recomendada para o modelo fornecido é a vetorizada em um processo, em lotes de
 alguns milhares de linhas para entradas grandes. Para mais vazão, as threads do BLAS.
 Processos só compensam com o pool reutilizado e com bastante conta por linha. Enquanto o
@@ -234,5 +255,5 @@ No benchmark, as 129 configurações das duas redes foram conferidas antes de me
 diferença foi de 4,9 × 10⁻¹⁵, e 81 delas produziram resultados idênticos bit a bit.
 
 Os dados completos estão em [03-hpc/resultados/](03-hpc/resultados/): tempos individuais
-e memória em `benchmark.csv`, `benchmark.json`, `largo.csv` e `largo.json`, tabelas em
-`resumo.md`, o gráfico e os logs de execução.
+e memória em `benchmark.csv`, `benchmark.json`, `largo.csv`, `largo.json` e na pasta
+`varredura/`, tabelas em `resumo.md`, os gráficos e os logs de execução.
