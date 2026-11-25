@@ -176,14 +176,14 @@ Estimativa: 2.080 execuções por observação × 362 ns = 752 µs por observaç
 | pool pronto por pickle, 2 processos | 0,944× | 1,32× | 1,21× |
 | vetorizada, 4 threads do BLAS | 2,14× | 1,81× | 1,48× |
 
-## Tabela 10. Varredura da camada oculta, 100 mil linhas
+## Tabela 10. Varredura da camada oculta, 10 mil linhas
 
-| 100 mil linhas; camada oculta → | 8 | 32 | 128 | 512 | 1024 | 2048 |
-|---|---|---|---|---|---|---|
-| vetorizada, 1 processo (ms) | 10,6 | 21,8 | 67,7 | 235 | 495 | 978 |
-| paralela completa, 2 processos | 1/16 | 0,115× | 0,225× | 0,475× | 0,495× | 0,818× |
-| paralela completa, 4 processos | 1/19 | 1/11 | 0,133× | 0,392× | 0,554× | 0,826× |
-| pool pronto, 2 processos | 0,859× | 1,26× | 1,54× | 1,56× | 1,34× | 1,42× |
-| pool pronto, 4 processos | 1× | 1,35× | 2,15× | 1,9× | 1,87× | 1,76× |
-| vetorizada, 2 threads do BLAS | 0,977× | 1,38× | 1,54× | 1,47× | 1,34× | 1,09× |
-| vetorizada, 4 threads do BLAS | 1,02× | 1,41× | 1,54× | 1,6× | 1,53× | 1,62× |
+| 10 mil linhas; camada oculta → | 8 | 32 | 128 | 512 | 2048 | 8192 | 32768 |
+|---|---|---|---|---|---|---|---|
+| vetorizada, 1 processo (ms) | 0,626 | 1,50 | 5,99 | 24,6 | 91,2 | 368 | 1.506 |
+| paralela completa, 2 processos | 1/226 | 1/90 | 1/46 | 1/11 | 0,319× | 0,629× | 1,02× |
+| paralela completa, 4 processos | 1/284 | 1/115 | 1/85 | 1/20 | 0,179× | 0,52× | 1,03× |
+| pool pronto, 2 processos | 0,365× | 0,663× | 1,2× | 1,8× | 1,69× | 1,49× | 1,59× |
+| pool pronto, 4 processos | 0,359× | 0,686× | 1,24× | 1,99× | 2,14× | 1,99× | 2× |
+| vetorizada, 2 threads do BLAS | 0,887× | 1,1× | 1,32× | 1,21× | 1,5× | 1,54× | 1,36× |
+| vetorizada, 4 threads do BLAS | 1,04× | 1,37× | 1,67× | 1,63× | 1,72× | 1,43× | 1,4× |

@@ -27,7 +27,7 @@
   "aquecimentos": 1,
   "rodadas": 5,
   "dados": "X residente na RAM (np.load sem mmap); leitura do disco fora do intervalo",
-  "preparo_fundido_s": 2.336999386898242e-06,
+  "preparo_fundido_s": 2.1470004867296666e-06,
   "rtol": 1e-10,
   "atol": 1e-10,
   "modelo": {
@@ -39,23 +39,23 @@
     ]
   }
 }
-oculta_8 vetorizado completo                 p=1 t=1 lote=100000  mediana=    10.606 ms  speedup=  1.000
-oculta_8 vetorizado completo                 p=1 t=1 lote=4096    mediana=    10.156 ms  speedup=  1.028
-oculta_8 vetorizado completo                 p=1 t=1 lote=512     mediana=     8.793 ms  speedup=  1.204
-oculta_8 vetorizado threads do BLAS          p=1 t=2 lote=100000  mediana=    10.857 ms  speedup=  0.977
-oculta_8 vetorizado threads do BLAS          p=1 t=4 lote=100000  mediana=    10.353 ms  speedup=  1.024
-oculta_8 paralelo   completo                 p=2 t=1 lote=50000   mediana=   173.247 ms  speedup=  0.061
-oculta_8 paralelo   pool pronto              p=2 t=1 lote=50000   mediana=    12.143 ms  speedup=  0.859
-oculta_8 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=    12.576 ms  speedup=  0.830
-oculta_8 paralelo   pool pronto              p=2 t=1 lote=512     mediana=    23.706 ms  speedup=  0.440
-oculta_8 paralelo   pool pronto, sem cópia   p=2 t=1 lote=50000   mediana=     5.127 ms  speedup=  2.078
-oculta_8 paralelo   pool pronto, por pickle  p=2 t=1 lote=50000   mediana=    99.767 ms  speedup=  0.107
-oculta_8 paralelo   completo                 p=4 t=1 lote=25000   mediana=   208.072 ms  speedup=  0.052
-oculta_8 paralelo   pool pronto              p=4 t=1 lote=25000   mediana=    10.642 ms  speedup=  1.002
-oculta_8 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=    10.817 ms  speedup=  1.017
-oculta_8 paralelo   pool pronto              p=4 t=1 lote=512     mediana=    21.037 ms  speedup=  0.491
-oculta_8 paralelo   pool pronto, sem cópia   p=4 t=1 lote=25000   mediana=     4.298 ms  speedup=  2.502
-oculta_8 paralelo   pool pronto, por pickle  p=4 t=1 lote=25000   mediana=    83.680 ms  speedup=  0.124
+oculta_8 vetorizado completo                 p=1 t=1 lote=10000   mediana=     0.626 ms  speedup=  1.000
+oculta_8 vetorizado completo                 p=1 t=1 lote=4096    mediana=     0.647 ms  speedup=  0.969
+oculta_8 vetorizado completo                 p=1 t=1 lote=512     mediana=     0.555 ms  speedup=  1.140
+oculta_8 vetorizado threads do BLAS          p=1 t=2 lote=10000   mediana=     0.681 ms  speedup=  0.887
+oculta_8 vetorizado threads do BLAS          p=1 t=4 lote=10000   mediana=     0.599 ms  speedup=  1.045
+oculta_8 paralelo   completo                 p=2 t=1 lote=5000    mediana=   134.525 ms  speedup=  0.004
+oculta_8 paralelo   pool pronto              p=2 t=1 lote=5000    mediana=     1.763 ms  speedup=  0.365
+oculta_8 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=     1.866 ms  speedup=  0.291
+oculta_8 paralelo   pool pronto              p=2 t=1 lote=512     mediana=     2.531 ms  speedup=  0.281
+oculta_8 paralelo   pool pronto, sem cópia   p=2 t=1 lote=5000    mediana=     1.062 ms  speedup=  0.582
+oculta_8 paralelo   pool pronto, por pickle  p=2 t=1 lote=5000    mediana=    10.427 ms  speedup=  0.061
+oculta_8 paralelo   completo                 p=4 t=1 lote=2500    mediana=   169.186 ms  speedup=  0.004
+oculta_8 paralelo   pool pronto              p=4 t=1 lote=2500    mediana=     2.102 ms  speedup=  0.359
+oculta_8 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=     1.874 ms  speedup=  0.331
+oculta_8 paralelo   pool pronto              p=4 t=1 lote=512     mediana=     2.594 ms  speedup=  0.231
+oculta_8 paralelo   pool pronto, sem cópia   p=4 t=1 lote=2500    mediana=     1.365 ms  speedup=  0.434
+oculta_8 paralelo   pool pronto, por pickle  p=4 t=1 lote=2500    mediana=     8.784 ms  speedup=  0.071
 Resultados em 03-hpc/resultados/varredura/oculta_8.csv e 03-hpc/resultados/varredura/oculta_8.json
 {
   "sistema": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
@@ -86,7 +86,7 @@ Resultados em 03-hpc/resultados/varredura/oculta_8.csv e 03-hpc/resultados/varre
   "aquecimentos": 1,
   "rodadas": 5,
   "dados": "X residente na RAM (np.load sem mmap); leitura do disco fora do intervalo",
-  "preparo_fundido_s": 2.2849999368190765e-06,
+  "preparo_fundido_s": 3.9810001908335835e-06,
   "rtol": 1e-10,
   "atol": 1e-10,
   "modelo": {
@@ -98,23 +98,23 @@ Resultados em 03-hpc/resultados/varredura/oculta_8.csv e 03-hpc/resultados/varre
     ]
   }
 }
-oculta_32 vetorizado completo                 p=1 t=1 lote=100000  mediana=    21.793 ms  speedup=  1.000
-oculta_32 vetorizado completo                 p=1 t=1 lote=4096    mediana=    17.821 ms  speedup=  1.221
-oculta_32 vetorizado completo                 p=1 t=1 lote=512     mediana=    18.987 ms  speedup=  1.131
-oculta_32 vetorizado threads do BLAS          p=1 t=2 lote=100000  mediana=    14.658 ms  speedup=  1.382
-oculta_32 vetorizado threads do BLAS          p=1 t=4 lote=100000  mediana=    16.802 ms  speedup=  1.410
-oculta_32 paralelo   completo                 p=2 t=1 lote=50000   mediana=   179.150 ms  speedup=  0.115
-oculta_32 paralelo   pool pronto              p=2 t=1 lote=50000   mediana=    17.308 ms  speedup=  1.261
-oculta_32 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=    17.795 ms  speedup=  1.242
-oculta_32 paralelo   pool pronto              p=2 t=1 lote=512     mediana=    25.901 ms  speedup=  0.831
-oculta_32 paralelo   pool pronto, sem cópia   p=2 t=1 lote=50000   mediana=    10.739 ms  speedup=  1.988
-oculta_32 paralelo   pool pronto, por pickle  p=2 t=1 lote=50000   mediana=   115.639 ms  speedup=  0.188
-oculta_32 paralelo   completo                 p=4 t=1 lote=25000   mediana=   232.962 ms  speedup=  0.093
-oculta_32 paralelo   pool pronto              p=4 t=1 lote=25000   mediana=    15.343 ms  speedup=  1.354
-oculta_32 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=    14.717 ms  speedup=  1.573
-oculta_32 paralelo   pool pronto              p=4 t=1 lote=512     mediana=    19.581 ms  speedup=  1.023
-oculta_32 paralelo   pool pronto, sem cópia   p=4 t=1 lote=25000   mediana=     8.881 ms  speedup=  2.515
-oculta_32 paralelo   pool pronto, por pickle  p=4 t=1 lote=25000   mediana=    93.441 ms  speedup=  0.221
+oculta_32 vetorizado completo                 p=1 t=1 lote=10000   mediana=     1.497 ms  speedup=  1.000
+oculta_32 vetorizado completo                 p=1 t=1 lote=4096    mediana=     1.405 ms  speedup=  1.065
+oculta_32 vetorizado completo                 p=1 t=1 lote=512     mediana=     1.384 ms  speedup=  1.105
+oculta_32 vetorizado threads do BLAS          p=1 t=2 lote=10000   mediana=     1.584 ms  speedup=  1.103
+oculta_32 vetorizado threads do BLAS          p=1 t=4 lote=10000   mediana=     1.314 ms  speedup=  1.366
+oculta_32 paralelo   completo                 p=2 t=1 lote=5000    mediana=   147.043 ms  speedup=  0.011
+oculta_32 paralelo   pool pronto              p=2 t=1 lote=5000    mediana=     2.387 ms  speedup=  0.663
+oculta_32 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=     2.534 ms  speedup=  0.602
+oculta_32 paralelo   pool pronto              p=2 t=1 lote=512     mediana=     3.015 ms  speedup=  0.481
+oculta_32 paralelo   pool pronto, sem cópia   p=2 t=1 lote=5000    mediana=     1.612 ms  speedup=  0.909
+oculta_32 paralelo   pool pronto, por pickle  p=2 t=1 lote=5000    mediana=    11.482 ms  speedup=  0.127
+oculta_32 paralelo   completo                 p=4 t=1 lote=2500    mediana=   174.199 ms  speedup=  0.009
+oculta_32 paralelo   pool pronto              p=4 t=1 lote=2500    mediana=     2.191 ms  speedup=  0.686
+oculta_32 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=     2.976 ms  speedup=  0.597
+oculta_32 paralelo   pool pronto              p=4 t=1 lote=512     mediana=     2.995 ms  speedup=  0.529
+oculta_32 paralelo   pool pronto, sem cópia   p=4 t=1 lote=2500    mediana=     1.640 ms  speedup=  0.932
+oculta_32 paralelo   pool pronto, por pickle  p=4 t=1 lote=2500    mediana=    10.280 ms  speedup=  0.163
 Resultados em 03-hpc/resultados/varredura/oculta_32.csv e 03-hpc/resultados/varredura/oculta_32.json
 {
   "sistema": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
@@ -145,7 +145,7 @@ Resultados em 03-hpc/resultados/varredura/oculta_32.csv e 03-hpc/resultados/varr
   "aquecimentos": 1,
   "rodadas": 5,
   "dados": "X residente na RAM (np.load sem mmap); leitura do disco fora do intervalo",
-  "preparo_fundido_s": 3.29100112139713e-06,
+  "preparo_fundido_s": 3.007000486832112e-06,
   "rtol": 1e-10,
   "atol": 1e-10,
   "modelo": {
@@ -157,23 +157,23 @@ Resultados em 03-hpc/resultados/varredura/oculta_32.csv e 03-hpc/resultados/varr
     ]
   }
 }
-oculta_128 vetorizado completo                 p=1 t=1 lote=100000  mediana=    67.675 ms  speedup=  1.000
-oculta_128 vetorizado completo                 p=1 t=1 lote=4096    mediana=    51.475 ms  speedup=  1.315
-oculta_128 vetorizado completo                 p=1 t=1 lote=512     mediana=    51.386 ms  speedup=  1.319
-oculta_128 vetorizado threads do BLAS          p=1 t=2 lote=100000  mediana=    44.057 ms  speedup=  1.542
-oculta_128 vetorizado threads do BLAS          p=1 t=4 lote=100000  mediana=    42.876 ms  speedup=  1.543
-oculta_128 paralelo   completo                 p=2 t=1 lote=50000   mediana=   308.747 ms  speedup=  0.225
-oculta_128 paralelo   pool pronto              p=2 t=1 lote=50000   mediana=    47.325 ms  speedup=  1.542
-oculta_128 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=    40.183 ms  speedup=  1.787
-oculta_128 paralelo   pool pronto              p=2 t=1 lote=512     mediana=    39.428 ms  speedup=  1.769
-oculta_128 paralelo   pool pronto, sem cópia   p=2 t=1 lote=50000   mediana=    41.241 ms  speedup=  1.636
-oculta_128 paralelo   pool pronto, por pickle  p=2 t=1 lote=50000   mediana=   133.747 ms  speedup=  0.501
-oculta_128 paralelo   completo                 p=4 t=1 lote=25000   mediana=   526.057 ms  speedup=  0.133
-oculta_128 paralelo   pool pronto              p=4 t=1 lote=25000   mediana=    33.171 ms  speedup=  2.155
-oculta_128 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=    33.599 ms  speedup=  2.108
-oculta_128 paralelo   pool pronto              p=4 t=1 lote=512     mediana=    26.311 ms  speedup=  2.541
-oculta_128 paralelo   pool pronto, sem cópia   p=4 t=1 lote=25000   mediana=    25.832 ms  speedup=  2.824
-oculta_128 paralelo   pool pronto, por pickle  p=4 t=1 lote=25000   mediana=   106.147 ms  speedup=  0.633
+oculta_128 vetorizado completo                 p=1 t=1 lote=10000   mediana=     5.990 ms  speedup=  1.000
+oculta_128 vetorizado completo                 p=1 t=1 lote=4096    mediana=     4.916 ms  speedup=  1.178
+oculta_128 vetorizado completo                 p=1 t=1 lote=512     mediana=     4.623 ms  speedup=  1.293
+oculta_128 vetorizado threads do BLAS          p=1 t=2 lote=10000   mediana=     4.374 ms  speedup=  1.317
+oculta_128 vetorizado threads do BLAS          p=1 t=4 lote=10000   mediana=     3.257 ms  speedup=  1.668
+oculta_128 paralelo   completo                 p=2 t=1 lote=5000    mediana=   272.009 ms  speedup=  0.022
+oculta_128 paralelo   pool pronto              p=2 t=1 lote=5000    mediana=     4.780 ms  speedup=  1.196
+oculta_128 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=     5.179 ms  speedup=  1.097
+oculta_128 paralelo   pool pronto              p=2 t=1 lote=512     mediana=     6.103 ms  speedup=  0.955
+oculta_128 paralelo   pool pronto, sem cópia   p=2 t=1 lote=5000    mediana=     4.564 ms  speedup=  1.328
+oculta_128 paralelo   pool pronto, por pickle  p=2 t=1 lote=5000    mediana=    15.357 ms  speedup=  0.386
+oculta_128 paralelo   completo                 p=4 t=1 lote=2500    mediana=   490.018 ms  speedup=  0.012
+oculta_128 paralelo   pool pronto              p=4 t=1 lote=2500    mediana=     4.626 ms  speedup=  1.235
+oculta_128 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=     4.790 ms  speedup=  1.194
+oculta_128 paralelo   pool pronto              p=4 t=1 lote=512     mediana=     3.631 ms  speedup=  1.579
+oculta_128 paralelo   pool pronto, sem cópia   p=4 t=1 lote=2500    mediana=     4.165 ms  speedup=  1.438
+oculta_128 paralelo   pool pronto, por pickle  p=4 t=1 lote=2500    mediana=    11.568 ms  speedup=  0.529
 Resultados em 03-hpc/resultados/varredura/oculta_128.csv e 03-hpc/resultados/varredura/oculta_128.json
 {
   "sistema": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
@@ -204,7 +204,7 @@ Resultados em 03-hpc/resultados/varredura/oculta_128.csv e 03-hpc/resultados/var
   "aquecimentos": 1,
   "rodadas": 5,
   "dados": "X residente na RAM (np.load sem mmap); leitura do disco fora do intervalo",
-  "preparo_fundido_s": 6.1420014390023425e-06,
+  "preparo_fundido_s": 6.1519986047642305e-06,
   "rtol": 1e-10,
   "atol": 1e-10,
   "modelo": {
@@ -216,23 +216,23 @@ Resultados em 03-hpc/resultados/varredura/oculta_128.csv e 03-hpc/resultados/var
     ]
   }
 }
-oculta_512 vetorizado completo                 p=1 t=1 lote=100000  mediana=   234.739 ms  speedup=  1.000
-oculta_512 vetorizado completo                 p=1 t=1 lote=4096    mediana=   204.731 ms  speedup=  1.148
-oculta_512 vetorizado completo                 p=1 t=1 lote=512     mediana=   188.176 ms  speedup=  1.247
-oculta_512 vetorizado threads do BLAS          p=1 t=2 lote=100000  mediana=   158.807 ms  speedup=  1.469
-oculta_512 vetorizado threads do BLAS          p=1 t=4 lote=100000  mediana=   146.338 ms  speedup=  1.604
-oculta_512 paralelo   completo                 p=2 t=1 lote=50000   mediana=   490.721 ms  speedup=  0.475
-oculta_512 paralelo   pool pronto              p=2 t=1 lote=50000   mediana=   150.313 ms  speedup=  1.560
-oculta_512 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=   137.585 ms  speedup=  1.719
-oculta_512 paralelo   pool pronto              p=2 t=1 lote=512     mediana=   113.499 ms  speedup=  2.066
-oculta_512 paralelo   pool pronto, sem cópia   p=2 t=1 lote=50000   mediana=   141.901 ms  speedup=  1.644
-oculta_512 paralelo   pool pronto, por pickle  p=2 t=1 lote=50000   mediana=   261.454 ms  speedup=  0.916
-oculta_512 paralelo   completo                 p=4 t=1 lote=25000   mediana=   602.947 ms  speedup=  0.392
-oculta_512 paralelo   pool pronto              p=4 t=1 lote=25000   mediana=   123.113 ms  speedup=  1.895
-oculta_512 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=   107.874 ms  speedup=  2.181
-oculta_512 paralelo   pool pronto              p=4 t=1 lote=512     mediana=    83.716 ms  speedup=  2.804
-oculta_512 paralelo   pool pronto, sem cópia   p=4 t=1 lote=25000   mediana=   105.973 ms  speedup=  2.247
-oculta_512 paralelo   pool pronto, por pickle  p=4 t=1 lote=25000   mediana=   170.359 ms  speedup=  1.376
+oculta_512 vetorizado completo                 p=1 t=1 lote=10000   mediana=    24.572 ms  speedup=  1.000
+oculta_512 vetorizado completo                 p=1 t=1 lote=4096    mediana=    21.294 ms  speedup=  1.137
+oculta_512 vetorizado completo                 p=1 t=1 lote=512     mediana=    18.482 ms  speedup=  1.329
+oculta_512 vetorizado threads do BLAS          p=1 t=2 lote=10000   mediana=    20.088 ms  speedup=  1.214
+oculta_512 vetorizado threads do BLAS          p=1 t=4 lote=10000   mediana=    15.099 ms  speedup=  1.627
+oculta_512 paralelo   completo                 p=2 t=1 lote=5000    mediana=   275.568 ms  speedup=  0.089
+oculta_512 paralelo   pool pronto              p=2 t=1 lote=5000    mediana=    13.837 ms  speedup=  1.797
+oculta_512 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=    15.154 ms  speedup=  1.628
+oculta_512 paralelo   pool pronto              p=2 t=1 lote=512     mediana=    12.796 ms  speedup=  1.943
+oculta_512 paralelo   pool pronto, sem cópia   p=2 t=1 lote=5000    mediana=    12.623 ms  speedup=  1.892
+oculta_512 paralelo   pool pronto, por pickle  p=2 t=1 lote=5000    mediana=    20.243 ms  speedup=  1.219
+oculta_512 paralelo   completo                 p=4 t=1 lote=2500    mediana=   479.388 ms  speedup=  0.051
+oculta_512 paralelo   pool pronto              p=4 t=1 lote=2500    mediana=    12.324 ms  speedup=  1.986
+oculta_512 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=    13.955 ms  speedup=  1.754
+oculta_512 paralelo   pool pronto              p=4 t=1 lote=512     mediana=     9.400 ms  speedup=  2.541
+oculta_512 paralelo   pool pronto, sem cópia   p=4 t=1 lote=2500    mediana=    11.202 ms  speedup=  2.220
+oculta_512 paralelo   pool pronto, por pickle  p=4 t=1 lote=2500    mediana=    17.525 ms  speedup=  1.402
 Resultados em 03-hpc/resultados/varredura/oculta_512.csv e 03-hpc/resultados/varredura/oculta_512.json
 {
   "sistema": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
@@ -263,36 +263,36 @@ Resultados em 03-hpc/resultados/varredura/oculta_512.csv e 03-hpc/resultados/var
   "aquecimentos": 1,
   "rodadas": 5,
   "dados": "X residente na RAM (np.load sem mmap); leitura do disco fora do intervalo",
-  "preparo_fundido_s": 1.0757999916677363e-05,
+  "preparo_fundido_s": 2.1414000002550893e-05,
   "rtol": 1e-10,
   "atol": 1e-10,
   "modelo": {
-    "arquivo": "03-hpc/modelos_varredura/oculta_1024/modelo.npz",
+    "arquivo": "03-hpc/modelos_varredura/oculta_2048/modelo.npz",
     "arquitetura": [
       64,
-      1024,
+      2048,
       1
     ]
   }
 }
-oculta_1024 vetorizado completo                 p=1 t=1 lote=100000  mediana=   494.737 ms  speedup=  1.000
-oculta_1024 vetorizado completo                 p=1 t=1 lote=4096    mediana=   537.290 ms  speedup=  0.949
-oculta_1024 vetorizado completo                 p=1 t=1 lote=512     mediana=   416.485 ms  speedup=  1.227
-oculta_1024 vetorizado threads do BLAS          p=1 t=2 lote=100000  mediana=   369.986 ms  speedup=  1.337
-oculta_1024 vetorizado threads do BLAS          p=1 t=4 lote=100000  mediana=   321.708 ms  speedup=  1.525
-oculta_1024 paralelo   completo                 p=2 t=1 lote=50000   mediana=  1096.958 ms  speedup=  0.495
-oculta_1024 paralelo   pool pronto              p=2 t=1 lote=50000   mediana=   367.848 ms  speedup=  1.345
-oculta_1024 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=   320.202 ms  speedup=  1.551
-oculta_1024 paralelo   pool pronto              p=2 t=1 lote=512     mediana=   296.833 ms  speedup=  1.614
-oculta_1024 paralelo   pool pronto, sem cópia   p=2 t=1 lote=50000   mediana=   329.969 ms  speedup=  1.487
-oculta_1024 paralelo   pool pronto, por pickle  p=2 t=1 lote=50000   mediana=   494.616 ms  speedup=  0.992
-oculta_1024 paralelo   completo                 p=4 t=1 lote=25000   mediana=   913.920 ms  speedup=  0.554
-oculta_1024 paralelo   pool pronto              p=4 t=1 lote=25000   mediana=   268.383 ms  speedup=  1.868
-oculta_1024 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=   279.842 ms  speedup=  1.814
-oculta_1024 paralelo   pool pronto              p=4 t=1 lote=512     mediana=   234.988 ms  speedup=  2.267
-oculta_1024 paralelo   pool pronto, sem cópia   p=4 t=1 lote=25000   mediana=   269.760 ms  speedup=  1.859
-oculta_1024 paralelo   pool pronto, por pickle  p=4 t=1 lote=25000   mediana=   377.315 ms  speedup=  1.329
-Resultados em 03-hpc/resultados/varredura/oculta_1024.csv e 03-hpc/resultados/varredura/oculta_1024.json
+oculta_2048 vetorizado completo                 p=1 t=1 lote=10000   mediana=    91.208 ms  speedup=  1.000
+oculta_2048 vetorizado completo                 p=1 t=1 lote=4096    mediana=    91.552 ms  speedup=  0.998
+oculta_2048 vetorizado completo                 p=1 t=1 lote=512     mediana=    78.442 ms  speedup=  1.177
+oculta_2048 vetorizado threads do BLAS          p=1 t=2 lote=10000   mediana=    60.964 ms  speedup=  1.501
+oculta_2048 vetorizado threads do BLAS          p=1 t=4 lote=10000   mediana=    56.230 ms  speedup=  1.724
+oculta_2048 paralelo   completo                 p=2 t=1 lote=5000    mediana=   311.486 ms  speedup=  0.319
+oculta_2048 paralelo   pool pronto              p=2 t=1 lote=5000    mediana=    56.882 ms  speedup=  1.691
+oculta_2048 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=    72.381 ms  speedup=  1.447
+oculta_2048 paralelo   pool pronto              p=2 t=1 lote=512     mediana=    49.980 ms  speedup=  1.850
+oculta_2048 paralelo   pool pronto, sem cópia   p=2 t=1 lote=5000    mediana=    56.442 ms  speedup=  1.718
+oculta_2048 paralelo   pool pronto, por pickle  p=2 t=1 lote=5000    mediana=    68.218 ms  speedup=  1.507
+oculta_2048 paralelo   completo                 p=4 t=1 lote=2500    mediana=   535.633 ms  speedup=  0.179
+oculta_2048 paralelo   pool pronto              p=4 t=1 lote=2500    mediana=    45.612 ms  speedup=  2.138
+oculta_2048 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=    51.980 ms  speedup=  1.892
+oculta_2048 paralelo   pool pronto              p=4 t=1 lote=512     mediana=    39.139 ms  speedup=  2.487
+oculta_2048 paralelo   pool pronto, sem cópia   p=4 t=1 lote=2500    mediana=    42.025 ms  speedup=  2.299
+oculta_2048 paralelo   pool pronto, por pickle  p=4 t=1 lote=2500    mediana=    51.811 ms  speedup=  1.854
+Resultados em 03-hpc/resultados/varredura/oculta_2048.csv e 03-hpc/resultados/varredura/oculta_2048.json
 {
   "sistema": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
   "cpu": "11th Gen Intel(R) Core(TM) i7-1185G7 @ 3.00GHz",
@@ -322,33 +322,92 @@ Resultados em 03-hpc/resultados/varredura/oculta_1024.csv e 03-hpc/resultados/va
   "aquecimentos": 1,
   "rodadas": 5,
   "dados": "X residente na RAM (np.load sem mmap); leitura do disco fora do intervalo",
-  "preparo_fundido_s": 2.4295999537571333e-05,
+  "preparo_fundido_s": 0.00010396400102763437,
   "rtol": 1e-10,
   "atol": 1e-10,
   "modelo": {
-    "arquivo": "03-hpc/modelos_varredura/oculta_2048/modelo.npz",
+    "arquivo": "03-hpc/modelos_varredura/oculta_8192/modelo.npz",
     "arquitetura": [
       64,
-      2048,
+      8192,
       1
     ]
   }
 }
-oculta_2048 vetorizado completo                 p=1 t=1 lote=100000  mediana=   977.716 ms  speedup=  1.000
-oculta_2048 vetorizado completo                 p=1 t=1 lote=4096    mediana=  1028.852 ms  speedup=  0.935
-oculta_2048 vetorizado completo                 p=1 t=1 lote=512     mediana=   837.553 ms  speedup=  1.149
-oculta_2048 vetorizado threads do BLAS          p=1 t=2 lote=100000  mediana=   880.259 ms  speedup=  1.093
-oculta_2048 vetorizado threads do BLAS          p=1 t=4 lote=100000  mediana=   609.079 ms  speedup=  1.616
-oculta_2048 paralelo   completo                 p=2 t=1 lote=50000   mediana=  1211.140 ms  speedup=  0.818
-oculta_2048 paralelo   pool pronto              p=2 t=1 lote=50000   mediana=   676.599 ms  speedup=  1.423
-oculta_2048 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=   690.883 ms  speedup=  1.459
-oculta_2048 paralelo   pool pronto              p=2 t=1 lote=512     mediana=   642.928 ms  speedup=  1.661
-oculta_2048 paralelo   pool pronto, sem cópia   p=2 t=1 lote=50000   mediana=   663.762 ms  speedup=  1.470
-oculta_2048 paralelo   pool pronto, por pickle  p=2 t=1 lote=50000   mediana=   891.141 ms  speedup=  1.264
-oculta_2048 paralelo   completo                 p=4 t=1 lote=25000   mediana=  1165.178 ms  speedup=  0.826
-oculta_2048 paralelo   pool pronto              p=4 t=1 lote=25000   mediana=   547.405 ms  speedup=  1.758
-oculta_2048 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=   511.892 ms  speedup=  1.850
-oculta_2048 paralelo   pool pronto              p=4 t=1 lote=512     mediana=   463.620 ms  speedup=  2.109
-oculta_2048 paralelo   pool pronto, sem cópia   p=4 t=1 lote=25000   mediana=   606.348 ms  speedup=  1.836
-oculta_2048 paralelo   pool pronto, por pickle  p=4 t=1 lote=25000   mediana=   593.776 ms  speedup=  1.621
-Resultados em 03-hpc/resultados/varredura/oculta_2048.csv e 03-hpc/resultados/varredura/oculta_2048.json
+oculta_8192 vetorizado completo                 p=1 t=1 lote=10000   mediana=   367.831 ms  speedup=  1.000
+oculta_8192 vetorizado completo                 p=1 t=1 lote=4096    mediana=   383.658 ms  speedup=  0.950
+oculta_8192 vetorizado completo                 p=1 t=1 lote=512     mediana=   388.322 ms  speedup=  0.943
+oculta_8192 vetorizado threads do BLAS          p=1 t=2 lote=10000   mediana=   243.650 ms  speedup=  1.542
+oculta_8192 vetorizado threads do BLAS          p=1 t=4 lote=10000   mediana=   250.581 ms  speedup=  1.434
+oculta_8192 paralelo   completo                 p=2 t=1 lote=5000    mediana=   587.537 ms  speedup=  0.629
+oculta_8192 paralelo   pool pronto              p=2 t=1 lote=5000    mediana=   245.863 ms  speedup=  1.489
+oculta_8192 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=   274.898 ms  speedup=  1.307
+oculta_8192 paralelo   pool pronto              p=2 t=1 lote=512     mediana=   234.539 ms  speedup=  1.568
+oculta_8192 paralelo   pool pronto, sem cópia   p=2 t=1 lote=5000    mediana=   238.470 ms  speedup=  1.554
+oculta_8192 paralelo   pool pronto, por pickle  p=2 t=1 lote=5000    mediana=   251.114 ms  speedup=  1.431
+oculta_8192 paralelo   completo                 p=4 t=1 lote=2500    mediana=   704.625 ms  speedup=  0.520
+oculta_8192 paralelo   pool pronto              p=4 t=1 lote=2500    mediana=   188.773 ms  speedup=  1.985
+oculta_8192 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=   219.496 ms  speedup=  1.763
+oculta_8192 paralelo   pool pronto              p=4 t=1 lote=512     mediana=   182.062 ms  speedup=  2.026
+oculta_8192 paralelo   pool pronto, sem cópia   p=4 t=1 lote=2500    mediana=   192.244 ms  speedup=  1.887
+oculta_8192 paralelo   pool pronto, por pickle  p=4 t=1 lote=2500    mediana=   192.259 ms  speedup=  1.886
+Resultados em 03-hpc/resultados/varredura/oculta_8192.csv e 03-hpc/resultados/varredura/oculta_8192.json
+{
+  "sistema": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "cpu": "11th Gen Intel(R) Core(TM) i7-1185G7 @ 3.00GHz",
+  "cpus_logicas": 8,
+  "memoria_total_gb": 16.3,
+  "python": "3.12.14",
+  "numpy": "2.2.6",
+  "blas": {
+    "name": "scipy-openblas",
+    "version": "0.3.29",
+    "openblas configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=64"
+  },
+  "threads_solicitadas": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "threads_do_so_observadas": {
+    "pai, limite de 1": 1,
+    "pai, limite de 2": 2,
+    "pai, limite de 4": 4,
+    "filho spawn": 1
+  },
+  "metodo_de_inicio": "spawn",
+  "relogio": "time.perf_counter",
+  "aquecimentos": 1,
+  "rodadas": 5,
+  "dados": "X residente na RAM (np.load sem mmap); leitura do disco fora do intervalo",
+  "preparo_fundido_s": 0.0007196010010375176,
+  "rtol": 1e-10,
+  "atol": 1e-10,
+  "modelo": {
+    "arquivo": "03-hpc/modelos_varredura/oculta_32768/modelo.npz",
+    "arquitetura": [
+      64,
+      32768,
+      1
+    ]
+  }
+}
+oculta_32768 vetorizado completo                 p=1 t=1 lote=10000   mediana=  1505.840 ms  speedup=  1.000
+oculta_32768 vetorizado completo                 p=1 t=1 lote=4096    mediana=  1490.932 ms  speedup=  1.022
+oculta_32768 vetorizado completo                 p=1 t=1 lote=512     mediana=  1554.088 ms  speedup=  1.007
+oculta_32768 vetorizado threads do BLAS          p=1 t=2 lote=10000   mediana=  1153.587 ms  speedup=  1.358
+oculta_32768 vetorizado threads do BLAS          p=1 t=4 lote=10000   mediana=  1213.376 ms  speedup=  1.397
+oculta_32768 paralelo   completo                 p=2 t=1 lote=5000    mediana=  1746.264 ms  speedup=  1.025
+oculta_32768 paralelo   pool pronto              p=2 t=1 lote=5000    mediana=  1139.968 ms  speedup=  1.591
+oculta_32768 paralelo   pool pronto              p=2 t=1 lote=4096    mediana=  1187.072 ms  speedup=  1.357
+oculta_32768 paralelo   pool pronto              p=2 t=1 lote=512     mediana=  1099.677 ms  speedup=  1.504
+oculta_32768 paralelo   pool pronto, sem cópia   p=2 t=1 lote=5000    mediana=  1097.828 ms  speedup=  1.571
+oculta_32768 paralelo   pool pronto, por pickle  p=2 t=1 lote=5000    mediana=  1111.429 ms  speedup=  1.450
+oculta_32768 paralelo   completo                 p=4 t=1 lote=2500    mediana=  1761.918 ms  speedup=  1.029
+oculta_32768 paralelo   pool pronto              p=4 t=1 lote=2500    mediana=   821.591 ms  speedup=  2.000
+oculta_32768 paralelo   pool pronto              p=4 t=1 lote=4096    mediana=  1041.671 ms  speedup=  1.558
+oculta_32768 paralelo   pool pronto              p=4 t=1 lote=512     mediana=   823.470 ms  speedup=  1.807
+oculta_32768 paralelo   pool pronto, sem cópia   p=4 t=1 lote=2500    mediana=   828.265 ms  speedup=  1.864
+oculta_32768 paralelo   pool pronto, por pickle  p=4 t=1 lote=2500    mediana=   893.088 ms  speedup=  1.936
+Resultados em 03-hpc/resultados/varredura/oculta_32768.csv e 03-hpc/resultados/varredura/oculta_32768.json
