@@ -58,9 +58,12 @@ pouca conta. Com mais neurônios na camada oculta, o pool reutilizado passa a ga
 
 \section{Implementação}
 
-Todas as estratégias usam o mesmo núcleo, $H = XW_1 + b_1$, $y = HW_2 + b_2$, com produtos de
-matrizes e biases somados \emph{in-place}. A \textbf{vetorizada} aplica o núcleo em um
-processo; a \textbf{paralela} distribui os lotes entre processos \texttt{spawn}. Entradas e
+Todas as estratégias usam o mesmo núcleo, $H = XW_1 + b_1$, $y = HW_2 + b_2$, para que as
+diferenças de tempo venham só da organização em lotes e processos. As duas camadas, exigidas
+na comparação principal, são produtos de matrizes do BLAS, e os biases são somados
+\emph{in-place}, o que evita alocar uma segunda matriz $n\times32$ (19,7 $\to$ 14,8~ms com 100
+mil linhas). A \textbf{vetorizada} aplica o núcleo em um processo; a \textbf{paralela}
+distribui os lotes entre processos \texttt{spawn}. Entradas e
 saídas ficam em memória compartilhada (\texttt{RawArray}): o pai copia X uma vez, e cada filho
 lê a sua fatia e grava em \texttt{Y[início:fim]}, o que preserva a ordem. Os pesos (17~KB) vão
 uma vez a cada filho, na criação. As tarefas são só o par \texttt{(início, fim)}; o lote
@@ -90,7 +93,7 @@ paralela completa, de 4,5 mil a 1,5 milhão/s.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.92\linewidth]{speedup_por_linhas.png}
+\includegraphics[width=0.76\linewidth]{speedup_por_linhas.png}
 \caption{Speedup em relação à vetorizada, por número de linhas, na rede fornecida e na rede
 larga (escalas logarítmicas).}
 \end{figure}
