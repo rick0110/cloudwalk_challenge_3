@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Executa o projeto de ponta a ponta, a partir da raiz:
-#   bash reproduzir.sh          tudo: testes, análise, benchmark e resumo (~30 minutos)
+#   bash reproduzir.sh          tudo: testes, análise, benchmark e resumo (~35 minutos)
 #   bash reproduzir.sh rapido   demonstração: testes e benchmark com 1 mil e 10 mil linhas (~1 minuto)
 # A saída de cada passo da execução completa também fica em 03-hpc/resultados/logs/.
 set -euo pipefail
@@ -23,8 +23,9 @@ fi
 
 LOGS=03-hpc/resultados/logs
 mkdir -p "$LOGS"
+rm -f "$LOGS/varredura.log"
 
-# 1. Conjuntos do benchmark; o de 1 milhão de linhas confere a tendência além de 100 mil.
+# 1. Conjuntos do benchmark; com um conjunto além do pedido (1,000,000 de linhas)
 gerar 1000 pequeno
 gerar 10000 medio
 gerar 100000 grande
@@ -50,5 +51,16 @@ uv run --frozen python 03-hpc/benchmark.py --modelo "$LARGO" \
     --conjuntos largo_pequeno largo_medio largo_grande --estrategias vetorizado fundido paralelo \
     --saida 03-hpc/resultados/largo 2>&1 | tee "$LOGS/largo.log"
 
-# 6. Tabelas e gráfico do relatório.
+# 6. Varredura da camada oculta, com 100 mil linhas: quanto mais conta por linha, mais o
+#    paralelismo compensa. Cada tamanho tem o próprio modelo e o próprio conjunto.
+for oculta in 8 32 128 512 1024 2048; do
+    MODELO="03-hpc/modelos_varredura/oculta_$oculta/modelo.npz"
+    uv run --frozen python 03-hpc/gerar_modelo.py --hidden "$oculta" --output "$MODELO"
+    gerar 100000 "oculta_$oculta" "$MODELO"
+    uv run --frozen python 03-hpc/benchmark.py --modelo "$MODELO" --conjuntos "oculta_$oculta" \
+        --estrategias vetorizado paralelo --repeticoes 5 \
+        --saida "03-hpc/resultados/varredura/oculta_$oculta" 2>&1 | tee -a "$LOGS/varredura.log"
+done
+
+# 7. Tabelas e gráfico do relatório.
 uv run --frozen python 03-hpc/resumo.py
