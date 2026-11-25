@@ -324,11 +324,11 @@ def tabela_varredura(varredura):
     for rotulo, (config, _, _) in VARREDURA.items():
         linhas.append([rotulo] + [vezes(buscar(varredura[h], f"oculta_{h}", **config)["speedup_vs_vetorizado"])
                                   for h in ocultas])
-    return tabela(["100 mil linhas; camada oculta →"] + [str(h) for h in ocultas], linhas)
+    return tabela(["10 mil linhas; camada oculta →"] + [str(h) for h in ocultas], linhas)
 
 
 def grafico_varredura(varredura, caminho):
-    """Speedup contra a vetorizada, com 100 mil linhas, em função da camada oculta."""
+    """Speedup contra a vetorizada, com 10 mil linhas, em função da camada oculta."""
     ocultas = list(varredura)
     figura, eixo = plt.subplots(figsize=(7.5, 3.8), dpi=200)
     for fundo in (figura, eixo):
@@ -345,11 +345,12 @@ def grafico_varredura(varredura, caminho):
     eixo.set_xscale("log", base=2)
     eixo.set_yscale("log")
     eixo.set_xticks(ocultas, [str(h) for h in ocultas])
-    eixo.set_yticks([1 / 16, 1 / 8, 1 / 4, 1 / 2, 1, 2, 4], ["1/16", "1/8", "1/4", "1/2", "1×", "2×", "4×"])
+    eixo.set_yticks([1 / 256, 1 / 64, 1 / 16, 1 / 4, 1, 2, 4],
+                    ["1/256", "1/64", "1/16", "1/4", "1×", "2×", "4×"])
     eixo.minorticks_off()
     eixo.set_xlabel("neurônios na camada oculta (64 → oculta → 1)", color="#52514e", fontsize=8)
     eixo.set_ylabel("speedup vs vetorizada em 1 processo", color="#52514e", fontsize=8)
-    eixo.set_title("Com 100 mil linhas: mais conta por linha ajuda o paralelismo, até saturar perto de 2×",
+    eixo.set_title("Com 10 mil linhas: mais conta por linha, mais o paralelismo compensa, até cerca de 2×",
                    fontsize=9, color="#0b0b0b", loc="left")
     eixo.grid(True, color="#e4e3df", linewidth=0.8)
     for lado in ("top", "right"):
@@ -388,7 +389,7 @@ def main():
             largo, list(dict.fromkeys(linha["conjunto"] for linha in largo)))))
     varredura = ler_varredura()
     if varredura:
-        secoes.append(("Tabela 10. Varredura da camada oculta, 100 mil linhas",
+        secoes.append(("Tabela 10. Varredura da camada oculta, 10 mil linhas",
                        tabela_varredura(varredura)))
     texto = "# Resumo dos resultados\n\nGerado por `03-hpc/resumo.py`.\n\n" + "\n\n".join(
         f"## {titulo}\n\n{conteudo}" for titulo, conteudo in secoes) + "\n"
