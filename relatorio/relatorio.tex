@@ -33,8 +33,7 @@ processos não compensou: a execução paralela completa com 2 processos \texttt
 lenta que a vetorizada em um processo em todos os tamanhos, de 1 mil a 1 milhão de linhas.
 O que pesa é criar os processos (cerca de 220~ms) e mover os dados, porque cada linha tem
 pouca conta. Com uma rede 32 vezes mais larga, a mesma implementação com o pool reutilizado
-passa a ganhar em todos os tamanhos (até 2,3\x). Recomendo a vetorizada em um processo e, se
-faltar vazão, as threads do BLAS.
+passa a ganhar em todos os tamanhos (até 2,3\x).
 
 \section{Ambiente e protocolo}
 
@@ -91,8 +90,9 @@ paralela completa, de 4,5 mil a 1,5 milhão/s.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.62\linewidth]{speedup_por_linhas.png}
-\caption{Speedup em relação à vetorizada, por número de linhas (escalas logarítmicas).}
+\includegraphics[width=0.92\linewidth]{speedup_por_linhas.png}
+\caption{Speedup em relação à vetorizada, por número de linhas, na rede fornecida e na rede
+larga (escalas logarítmicas).}
 \end{figure}
 
 \section{Para onde vai o tempo}

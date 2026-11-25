@@ -161,7 +161,7 @@ Throughput, em observações por segundo:
 | Vetorizada | 5.694.209 | 3.867.482 | 4.335.082 | 4.373.044 |
 | Paralela completa, 2 processos | 4.471 | 41.240 | 397.093 | 1.534.859 |
 
-![Speedup em relação à vetorizada, por número de linhas](03-hpc/resultados/speedup_por_linhas.png)
+![Speedup em relação à vetorizada, por número de linhas, nas duas redes](03-hpc/resultados/speedup_por_linhas.png)
 
 Speedup de cada estratégia em relação à vetorizada em um processo:
 

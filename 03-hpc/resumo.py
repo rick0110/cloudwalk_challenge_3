@@ -229,42 +229,45 @@ def tabela_escalar(r):
 # --------------------------------------------------------------------------- gráfico
 
 
-def grafico(r, conjuntos, caminho):
-    """Speedup pareado contra a vetorizada, por tamanho; acima da linha de 1× compensa."""
+def grafico(paineis, caminho):
+    """Speedup pareado contra a vetorizada, por tamanho, um painel por rede.
+
+    `paineis` é uma lista de (título, resultados, conjuntos). Acima da linha de 1× compensa.
+    """
     series = ("paralela completa, 2 processos", "pool pronto, 2 processos",
               "pool pronto sem cópia, 2 processos", "vetorizada, 4 threads do BLAS")
     cores = ("#2a78d6", "#eb6834", "#1baf7a", "#eda100")  # azul, laranja, verde-água, amarelo
-    figura, eixo = plt.subplots(figsize=(7.5, 4.4), dpi=200)
-    for fundo in (figura, eixo):
-        fundo.set_facecolor("#fcfcfb")
-    eixo.axhline(1, color="#52514e", linewidth=1, linestyle="--")
-    eixo.annotate("empate com a vetorizada", (1e3, 1), xytext=(0, -11), textcoords="offset points",
-                  fontsize=7, color="#52514e")
-    for rotulo, cor in zip(series, cores):
-        medidas = [buscar(r, c, **CONFIGURACOES[rotulo]) for c in conjuntos]
-        n = [m["linhas"] for m in medidas]
-        s = [m["speedup_vs_vetorizado"] for m in medidas]
-        eixo.plot(n, s, color=cor, linewidth=2, marker="o", markersize=6, label=rotulo)
-        eixo.annotate(rotulo, (n[-1], s[-1]), xytext=(8, 0), textcoords="offset points",
-                      va="center", fontsize=7, color="#0b0b0b")
-    eixo.set_xscale("log")
-    eixo.set_yscale("log")
-    eixo.set_xlim(6e2, 4e7)  # à direita, espaço para os rótulos diretos
-    eixo.set_xticks([1e3, 1e4, 1e5, 1e6], ["1 mil", "10 mil", "100 mil", "1 milhão"])
-    eixo.set_yticks([1e-3, 1e-2, 1e-1, 1, 2, 4], ["1/1000", "1/100", "1/10", "1×", "2×", "4×"])
-    eixo.minorticks_off()
-    eixo.set_xlabel("linhas por chamada", color="#52514e", fontsize=8)
-    eixo.set_ylabel("speedup vs vetorizada em 1 processo", color="#52514e", fontsize=8)
-    eixo.set_title("Acima da linha tracejada, a estratégia é mais rápida que a vetorizada",
-                   fontsize=9, color="#0b0b0b", loc="left")
-    eixo.grid(True, color="#e4e3df", linewidth=0.8)
-    for lado in ("top", "right"):
-        eixo.spines[lado].set_visible(False)
-    for lado in ("left", "bottom"):
-        eixo.spines[lado].set_color("#c3c2b7")
-    eixo.tick_params(colors="#52514e", labelsize=7)
-    eixo.legend(fontsize=7, frameon=False, loc="lower right", labelcolor="#0b0b0b")
-    figura.tight_layout()
+    tracos = ("-", "-", ":", "-")  # pontilhado: na rede larga, coincide com o pool pronto
+    figura, eixos = plt.subplots(1, len(paineis), figsize=(4.2 * len(paineis), 3.6), dpi=200,
+                                 sharey=True, squeeze=False)
+    figura.set_facecolor("#fcfcfb")
+    for eixo, (titulo, r, conjuntos) in zip(eixos[0], paineis):
+        eixo.set_facecolor("#fcfcfb")
+        eixo.axhline(1, color="#52514e", linewidth=1, linestyle="--")
+        for rotulo, cor, traco in zip(series, cores, tracos):
+            medidas = [buscar(r, c, **CONFIGURACOES[rotulo]) for c in conjuntos]
+            eixo.plot([m["linhas"] for m in medidas], [m["speedup_vs_vetorizado"] for m in medidas],
+                      color=cor, linewidth=2, linestyle=traco, marker="o", markersize=5,
+                      label=rotulo)
+        eixo.set_xscale("log")
+        eixo.set_yscale("log")
+        eixo.set_xlim(6e2, 1.6e6)
+        eixo.set_xticks([1e3, 1e4, 1e5, 1e6], ["1 mil", "10 mil", "100 mil", "1 milhão"])
+        eixo.set_yticks([1e-3, 1e-2, 1e-1, 1, 2, 4], ["1/1000", "1/100", "1/10", "1×", "2×", "4×"])
+        eixo.minorticks_off()
+        eixo.set_title(titulo, fontsize=9, color="#0b0b0b", loc="left")
+        eixo.set_xlabel("linhas por chamada", color="#52514e", fontsize=8)
+        eixo.grid(True, color="#e4e3df", linewidth=0.8)
+        for lado in ("top", "right"):
+            eixo.spines[lado].set_visible(False)
+        for lado in ("left", "bottom"):
+            eixo.spines[lado].set_color("#c3c2b7")
+        eixo.tick_params(colors="#52514e", labelsize=7)
+    eixos[0][0].set_ylabel("speedup vs vetorizada em 1 processo\n(acima da linha tracejada, compensa)",
+                           color="#52514e", fontsize=8)
+    figura.legend(*eixos[0][0].get_legend_handles_labels(), loc="lower center", ncol=4,
+                  fontsize=7, frameon=False, labelcolor="#0b0b0b")
+    figura.tight_layout(rect=(0, 0.08, 1, 1))
     figura.savefig(caminho, facecolor=figura.get_facecolor())
 
 
@@ -322,7 +325,11 @@ def main():
     texto = "# Resumo dos resultados\n\nGerado por `03-hpc/resumo.py`.\n\n" + "\n\n".join(
         f"## {titulo}\n\n{conteudo}" for titulo, conteudo in secoes) + "\n"
     (PASTA / "resumo.md").write_text(texto, encoding="utf-8")
-    grafico(r, conjuntos, PASTA / "speedup_por_linhas.png")
+    paineis = [("Rede fornecida, 64 → 32 → 1", r, conjuntos)]
+    if (PASTA / "largo.csv").exists():
+        paineis.append(("Rede larga, 64 → 1024 → 1", largo,
+                        list(dict.fromkeys(linha["conjunto"] for linha in largo))))
+    grafico(paineis, PASTA / "speedup_por_linhas.png")
     print(texto)
 
 
